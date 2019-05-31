@@ -2,7 +2,7 @@
 
 ## INSTALLATION ##
 ```
-composer create-project --prefer-dist sinevia/php-serverless blog
+composer create-project --prefer-dist sinevia/php-serverless .
 ```
 
 ## DEVELOPMENT ##
