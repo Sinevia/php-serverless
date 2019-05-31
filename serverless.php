@@ -10,7 +10,6 @@ function main($args = []) {
 
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
     $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-
     $extension = pathinfo($uri, PATHINFO_EXTENSION);
 
     /*  1. Static files */
@@ -30,21 +29,17 @@ function main($args = []) {
     $router = new Phroute\Phroute\RouteCollector();
 
     $router->filter('ApiVerifyUser', function() {
-        //$o = new App\Controllers\Api\BaseController();
-        //$response = $o->verifyUserRequest();
-        //return $response;
+        return true;
     });
 
     $router->group(array('prefix' => '/api'), function(Phroute\Phroute\RouteCollector $router) {
         
     });
 
-    $router->group(array('prefix' => '/user'), function(Phroute\Phroute\RouteCollector $router) {
-        $router->controller('/', 'App\Controllers\User\HomeController');
-    });
-
     $router->group(array('prefix' => '/'), function(Phroute\Phroute\RouteCollector $router) {
-        $router->controller('/', 'App\Controllers\Guest\HomeController');
+        $router->get('/', function() {
+            return 'Hello world !!!';
+        });
     });
 
     try {
