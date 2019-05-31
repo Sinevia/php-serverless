@@ -6,6 +6,18 @@
  * @see http://robo.li/
  */
 class RoboFile extends \Robo\Tasks {
+    /**
+     * Installs the serverless framework
+     */
+    function init() {
+        $isSuccessful = $this->taskExec('npm')
+                ->arg('update')
+                ->run()->wasSuccessful();
+        
+        if ($isSuccessful == false) {
+            return $this->say('Failed.');
+        }
+    }
 
     /**
      * Deploys the app to serverless
