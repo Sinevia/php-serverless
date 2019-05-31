@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 /* ENVIRONMENT */
 $env = (strpos(($_SERVER['HTTP_HOST'] ?? ''), 'localhost') === false) ? 'live' : 'local'; // Default is live
 \Sinevia\Registry::setIfNotExists("ENVIRONMENT", $env);
