@@ -49,7 +49,7 @@ function main($args = []) {
 
     try {
         $dispatcher = new Phroute\Phroute\Dispatcher($router->getData());
-        $response = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], $uri);
+        $response = $dispatcher->dispatch($method, $uri);
     } catch (\Phroute\Phroute\Exception\HttpRouteNotFoundException $e) {
         $response = $e->getMessage();
     } catch (\Phroute\Phroute\Exception\HttpMethodNotAllowedException $e) {
