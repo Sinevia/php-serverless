@@ -1,0 +1,25 @@
+service: YOURSERVICE
+package:
+    exclude:
+        - tests
+        - nbproject/**        
+        - vendor/bin/**
+        - .vagrant/**
+        - RoboFile.php
+        - phpunit.xml
+
+provider:
+  name: openwhisk
+  runtime: php
+  memory: 256 # optional, default is 256
+  timeout: 6 # optional, default is 6
+
+functions:
+  YOURFUNCTION:
+    handler: serverless.main
+    name: YOURFUNCTION
+    annotations:
+      web-export: true
+
+plugins:
+- serverless-openwhisk
