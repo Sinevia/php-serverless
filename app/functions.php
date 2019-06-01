@@ -105,7 +105,7 @@ function redirect($url) {
 
 
 /**
- * Returns the requested name-value pair if it exists
+ * Returns the requested $_REQUEST name-value pair if it exists
  * @return mixed
  */
 function req($name, $default = null, $functions = []) {
@@ -114,4 +114,66 @@ function req($name, $default = null, $functions = []) {
         $value = $fn($value);
     }
     return $value;
+}
+
+
+/**
+ * Returns the requested $_SESSION name-value pair if it exists
+ * @return string
+ */
+function sess($name, $default = null, $functions = [], $options = []) {
+    $value = (isset($_SESSION[$name]) == false) ? $default : $_SESSION[$name];
+    foreach ($functions as $fn) {
+        $value = $fn($value);
+    }
+    return $value;
+}
+
+
+/**
+ * Returns a once value if it exists in $_SESSION if it exists
+ * @return mixed
+ */
+function once($name, $default = null, $functions = [], $options = []) {
+    $value = (isset($_SESSION[$name]) == false) ? $default : $_SESSION[$name];
+    foreach ($functions as $fn) {
+        $value = $fn($value);
+    }
+    if (isset($_SESSION[$name])) {
+        unset($_SESSION[$name]);
+    }
+    return $value;
+}
+
+function reqOrSess($name, $default = null, $functions = []) {
+    if (req($name, $default, $functions) !== null) {
+        return req($name, $default, $functions);
+    }
+    if (sess($name, $default, $functions) !== null) {
+        return sess($name, $default, $functions);
+    }
+    return $default;
+}
+
+
+/**
+ * Renders a template
+ * @return string
+ */
+function ui($view, $vars = array(), $options = array()) {
+    $ext = pathinfo($view, PATHINFO_EXTENSION);
+    if ($ext == '') {
+        $view .= '.phtml';
+    }
+    $template = basePath('app/views/' . ltrim($view, '/'));
+    return \Sinevia\Template::fromFile($template, $vars, $options);
+}
+
+/**
+ * Renders a Blade template
+ * @return string
+ */
+function view($view, $data) {
+    $blade = new \Jenssegers\Blade\Blade(basePath('views'), basePath('cache'));
+    return $blade->render($view, $data);
 }
