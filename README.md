@@ -1,4 +1,6 @@
-# Serverless Framework
+# SERVERLESS FRAMEWORK
+
+The first fully functional PHP framework for serverless.
 
 ## INSTALLATION ##
 ```
