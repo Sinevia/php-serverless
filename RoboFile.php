@@ -6,6 +6,10 @@
  * @see http://robo.li/
  */
 class RoboFile extends \Robo\Tasks {
+    private $function = 'YOURFUNCTION';
+    private $liveUrl = 'https://eu-gb.functions.cloud.ibm.com/api/v1/web/YOURNAMESPACE/default/YOURFUNCTION';
+    private $devUrl = 'http://localhost:32222';
+    
     /**
      * Installs the serverless framework
      */
@@ -23,6 +27,7 @@ class RoboFile extends \Robo\Tasks {
      * Deploys the app to serverless
      */
     function deploy() {
+        // 1. Run composer
         $isSuccessful = $this->taskExec('composer')
                 ->arg('update')
                 ->option('prefer-dist')
@@ -33,6 +38,7 @@ class RoboFile extends \Robo\Tasks {
             return $this->say('Failed.');
         }
 
+        // 2. Run tests
         $isSuccessful = $this->taskExec('phpunit')
                 ->dir('vendor/bin')
                 ->option('configuration', '../../phpunit.xml')
@@ -43,9 +49,10 @@ class RoboFile extends \Robo\Tasks {
             return $this->say('Failed');
         }
 
+        // 3. Deploy
         $this->taskExec('sls')
                 ->arg('deploy')
-                ->option('function', 'YOURFUNCTIONNAME')
+                ->option('function', $this->function)
                 ->run();
     }
     
@@ -56,7 +63,7 @@ class RoboFile extends \Robo\Tasks {
 
         $this->taskExec('sls')
                 ->arg('logs')
-                ->option('function', 'YOURFUNCTIONNAME')
+                ->option('function', $this->function)
                 ->run();
     }
 
