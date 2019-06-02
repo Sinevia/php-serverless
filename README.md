@@ -23,3 +23,17 @@ Then open in browser: http://localhost:32222/
 vendor/bin/robo init
 vendor/bin/robo deploy
 ```
+
+## HELPER FUNCTIONS ##
+
+- Open dev url from terminal
+
+```
+vendor/bin/robo open:dev
+```
+
+- Open live url from terminal
+
+```
+vendor/bin/robo open:live
+```
