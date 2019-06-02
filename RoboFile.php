@@ -60,10 +60,30 @@ class RoboFile extends \Robo\Tasks {
      * Retrieves the logs from serverless
      */
     function logs() {
-
         $this->taskExec('sls')
                 ->arg('logs')
                 ->option('function', $this->function)
+                ->run();
+    }
+    
+    public function openLive() {
+        $isSuccessful = $this->taskExec('start')
+                ->arg('firefox')
+                ->arg($this->liveUrl)
+                ->run();
+    }
+
+    public function openDev() {
+        $isSuccessful = $this->taskExec('start')
+                ->arg('firefox')
+                ->arg($this->devUrl)
+                ->run();
+    }
+
+    public function serve() {
+        $isSuccessful = $this->taskExec('php')
+                ->arg('-S')
+                ->arg($this->devUrl)
                 ->run();
     }
 
