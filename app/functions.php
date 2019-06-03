@@ -98,6 +98,23 @@ if (function_exists('env') == false) {
     }
 }
 
+function htmlFormatPriceWithCurrencySymbol($amount, $currency) {
+    $symbol = "";
+    if ($currency == "GBP") {
+        $symbol = "&pound;";
+    }
+    if ($currency == "EUR") {
+        $symbol = "&euro;";
+    }
+    if ($currency == "USD") {
+        $symbol = "$";
+    }
+    if ($symbol != "") {
+        return $symbol . $amount;
+    }
+    return $amount . " " . $currency;
+}
+
 /**
  * Converts an image path to data URI
  * @return string
