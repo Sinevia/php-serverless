@@ -21,6 +21,13 @@ function baseUrl($path = '') {
     return $url . '/' . ltrim($path, '/');
 }
 
+if (function_exists('env') == false) {
+    function env($key, $default = "") {
+        $env = json_decode($_ENV['WHISK_INPUT'], true);
+        return $env[$key] ?? $default;
+    }
+}
+
 /**
  * Converts an image path to data URI
  * @return string
