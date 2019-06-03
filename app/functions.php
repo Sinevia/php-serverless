@@ -21,7 +21,77 @@ function baseUrl($path = '') {
     return $url . '/' . ltrim($path, '/');
 }
 
+/**
+ * Returns a database instance
+ * @return \Sinevia\SqlDb
+ */
+function db()
+{
+    static $db = null;
+
+    if (is_null($db)) {
+        $dbType = \Sinevia\Registry::get('DB_TYPE');
+        $dbHost = \Sinevia\Registry::get('DB_HOST');
+        $dbName = \Sinevia\Registry::get('DB_NAME');
+        $dbUser = \Sinevia\Registry::get('DB_USER');
+        $dbPass = \Sinevia\Registry::get('DB_PASS');
+        $db = new \Sinevia\SqlDb(array(
+            'database_type' => $dbType,
+            'database_host' => $dbHost,
+            'database_name' => $dbName,
+            'database_user' => $dbUser,
+            'database_pass' => $dbPass,
+        ));
+    }
+
+    return $db;
+}
+
+if (\Sinevia\Registry::equals('USE_ELOQUENT', true)) {
+
+    /**
+     * Setups the Eloquent environment
+     */
+    function eloquent()
+    {
+        $dbType = \Sinevia\Registry::get('DB_TYPE');
+        $dbHost = \Sinevia\Registry::get('DB_HOST');
+        $dbName = \Sinevia\Registry::get('DB_NAME');
+        $dbUser = \Sinevia\Registry::get('DB_USER');
+        $dbPass = \Sinevia\Registry::get('DB_PASS');
+        $dbPort = \Sinevia\Registry::get('DB_PORT');
+
+        $capsule = new Illuminate\Database\Capsule\Manager;
+        //var_dump($dbType);
+        //var_dump($dbHost);
+        $capsule->addConnection([
+            "driver" => $dbType,
+            "host" => $dbHost,
+            "port" => $dbPort,
+            "database" => $dbName,
+            "username" => $dbUser,
+            "password" => $dbPass,
+        ]);
+
+        // Model events
+        $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher(new Illuminate\Container\Container));
+
+        //Make this Capsule instance available globally.
+        $capsule->setAsGlobal();
+
+        // Setup the Eloquent ORM.
+        $capsule->bootEloquent();
+    }
+
+    eloquent(); // Initioalize eloquent
+}
+
+
 if (function_exists('env') == false) {
+    /**
+     * Returns an env variable from OPEN WHISK
+     * @return mixed
+     */
     function env($key, $default = "") {
         $env = json_decode($_ENV['WHISK_INPUT'], true);
         return $env[$key] ?? $default;
