@@ -51,7 +51,52 @@ vendor/bin/robo open:dev
 vendor/bin/robo open:live
 ```
 
-## Serving Static Files ##
+## TESTING ##
+
+Two testing frameworks supported out of the box - Testify.php (preferred, and preinstaled) and PHPUnit.
+
+To decide which modify the setting in the RoboFile.
+
+### Testing with Testify.php ###
+
+Testify is a small PHP testing library with no extenal dependencies: https://github.com/BafS/Testify.php
+
+Place your tests in /tests/test.php
+
+To run the tests
+
+```
+php tests/test.php
+```
+or
+```
+vendor/bin/robo test
+```
+
+### Testing with PHPUnit ###
+
+PHPUnit is a huge PHP testing library with lots of usually "unneeded" dependencies: https://phpunit.de/
+
+To install the framework with all the dependencies
+
+```
+composer require --dev phpunit/phpunit
+```
+
+Place your settigs in /phpunit.xml. Place your tests in /tests
+
+To run the tests
+
+```
+vendor/bin/phpunit
+```
+or
+```
+vendor/bin/robo test
+```
+
+
+## SERVING STATIC FILES ##
 
 Multiple options
 
