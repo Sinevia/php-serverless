@@ -50,3 +50,27 @@ vendor/bin/robo open:dev
 ```
 vendor/bin/robo open:live
 ```
+
+## Serving Static Files ##
+
+Multiple options
+
+Local CSS and JavaScript files are best to be served minified inline. Helper functions are added
+
+```
+<?php echo joinCss(['/css/main.css','/css/secondary.css']); ?>
+```
+
+Small images serve inline using as Base64 data.
+
+```
+<img src="<?php echo base64ed('/public/img/avatar.png'); ?>" />
+```
+
+To serve static files separately place them in the public directory.
+
+```
+/public/css/main.css
+```
+
+For remote static files use CDN, S3 or other storage.
