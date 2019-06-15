@@ -7,6 +7,8 @@ The first fully functional PHP framework for serverless.
 composer create-project --prefer-dist sinevia/php-serverless .
 ```
 
+After installation delete the phpunit.xml file, if you are not ging to use PHPUnit for testing
+
 ## DEVELOPMENT ##
 
 To start working on the project run the built in PHP server:
@@ -15,8 +17,7 @@ To start working on the project run the built in PHP server:
 php -S localhost:32222
 ```
 
-or using the heper function
-
+or using the helper function
 
 ```
 vendor/bin/robo serve
