@@ -86,6 +86,7 @@ class RoboFile extends \Robo\Tasks {
         $isSuccessful = $this->taskExec('php')
                 ->arg('-S')
                 ->arg($domain)
+                ->arg('index.php')
                 ->run();
     }
 
