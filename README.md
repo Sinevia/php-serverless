@@ -120,3 +120,59 @@ To serve static files separately place them in the public directory.
 ```
 
 For remote static files use CDN, S3 or other storage.
+
+
+## FUNCTIONS ##
+
+Functions are defined in file /app/functions.php
+
+### basePath($path = '') ###
+
+Returns the top most (root, base) path of the application
+
+### baseUrl($path = '') ###
+Returns the top most (root, base) URL of the application
+
+### db() ###
+Returns a database instance
+
+
+### env($key, $default = '') ###
+Returns an env variable from OPEN WHISK
+
+### htmlFormatPriceWithCurrencySymbol($amount, $currency) ###
+
+### image2DataUri($imagePath) ###
+Converts an image path to data URI
+
+### isGet ###
+Checks if this is a GET request
+
+### isPost ###
+Checks if this is a POST request
+
+### joinCss($styles, $options = []) ###
+Joins multiple CSS files, and optionally minifies them
+
+### joinJs($scripts, $options = []) ###
+Joins multiple JavaScript files, and optionally minifies them
+
+### redirect($url) ###
+Redirects to the specified URL
+
+### req($name, $default = null, $functions = []) ###
+Returns the requested $_REQUEST name-value pair if it exists
+
+### sess($name, $default = null, $functions = [], $options = []) ###
+Returns the requested $_SESSION name-value pair if it exists
+
+### once($name, $default = null, $functions = [], $options = []) ###
+Returns a once value if it exists in $_SESSION if it exists, then its deleted
+
+### function reqOrSess($name, $default = null, $functions = []) ###
+
+### ui($view, $vars = array(), $options = array()) ###
+Renders a template from app/views. If no extension is specified .phtml is added
+
+### view($view, $data) ###
+Renders a Blade template from /views. A /cache folder is required
