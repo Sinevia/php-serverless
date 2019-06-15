@@ -34,6 +34,6 @@
         "sinevia/php-library-utils": ">=v1.9.0"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=8.1.5"
+        "bafs/testify": "^1.0"
     }
 }
