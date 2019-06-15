@@ -22,6 +22,45 @@ class RoboFile extends \Robo\Tasks {
             return $this->say('Failed.');
         }
     }
+    
+    /**
+     * Testing with Testify
+     * @url https://github.com/BafS/Testify.php
+     * @return boolean true if tests successful, false otherwise
+     */
+    public function testWithTestify()
+    {
+        $isSuccessful = $this->taskExec('composer')
+            ->arg('update')
+            ->option('prefer-dist')
+            ->option('optimize-autoloader')
+            ->run()
+            ->wasSuccessful();
+
+        $this->say('Running tests...');
+
+        $result = $this->taskExec('php')
+            ->dir('tests')
+            ->arg('test.php')
+            ->printed(true)
+            ->run();
+
+        $output = $result->getMessage();
+
+        if ($result->wasSuccessful() == false) {
+            $this->say('Test Failed');
+            return false;
+        }
+
+        if (strpos($output, 'Tests: [fail]') > -1) {
+            $this->say('Tests Failed');
+            return false;
+        }
+
+        $this->say('Tests Successful');
+
+        return true;
+    }
 
     /**
      * Deploys the app to serverless
