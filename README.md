@@ -182,4 +182,9 @@ Returns a once value if it exists in $_SESSION. After the value is returned, it 
 Renders a template from app/views. If no extension is specified .phtml is added
 
 ### view($view, $data) ###
-Renders a Blade template from /views. A /cache folder is required
+Renders a Blade template from /views. A /cache folder is required. If using Eloquent for data management this function will clash, delete it.
+
+To use this function you must install Blade:
+```
+composer require jenssegers/blade
+```
