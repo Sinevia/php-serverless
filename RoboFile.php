@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks {
         }
     }
     
-    function test
+    function test()
     {
         if ($this->testingFramework == "TESTIFY") {
             return $this->testWithTestify();
