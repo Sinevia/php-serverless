@@ -7,7 +7,12 @@ The first fully functional PHP framework for serverless.
 composer create-project --prefer-dist sinevia/php-serverless .
 ```
 
-After installation delete the phpunit.xml file, if you are not ging to use PHPUnit for testing
+## AFTER INSTALLATION ##
+- Delete the phpunit.xml file, if you are not going to use PHPUnit for testing
+- Change the settings in /serverless.yaml
+- Change the settings in /RoboFile
+- Change the settings in /env.php
+
 
 ## DEVELOPMENT ##
 
@@ -33,6 +38,8 @@ vendor/bin/robo deploy
 ```
 
 ## HELPER FUNCTIONS ##
+
+A RoboFile exists with some helper functionality. 
 
 - Serve the site for development
 
@@ -124,7 +131,7 @@ For remote static files use CDN, S3 or other storage.
 
 ## FUNCTIONS ##
 
-Functions are defined in file /app/functions.php
+Functions are defined in file /app/functions.php.
 
 ### basePath($path = '') ###
 
@@ -167,7 +174,7 @@ Returns the requested $_REQUEST name-value pair if it exists
 Returns the requested $_SESSION name-value pair if it exists
 
 ### once($name, $default = null, $functions = [], $options = []) ###
-Returns a once value if it exists in $_SESSION if it exists, then its deleted
+Returns a once value if it exists in $_SESSION. After the value is returned, it is deleted
 
 ### function reqOrSess($name, $default = null, $functions = []) ###
 
