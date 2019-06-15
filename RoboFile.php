@@ -81,9 +81,11 @@ class RoboFile extends \Robo\Tasks {
     }
 
     public function serve() {
+        $domain = str_replace('http://','',$this->devUrl);
+        
         $isSuccessful = $this->taskExec('php')
                 ->arg('-S')
-                ->arg($this->devUrl)
+                ->arg($domain)
                 ->run();
     }
 
