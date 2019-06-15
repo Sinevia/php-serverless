@@ -1,6 +1,6 @@
 # SERVERLESS FRAMEWORK
 
-The first fully functional PHP framework for serverless.
+The first and fully functional PHP framework built for serverless. Easy to learn and start. All required is in this README file.
 
 ## INSTALLATION ##
 ```
