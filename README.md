@@ -4,8 +4,8 @@ The first and fully functional PHP framework built for serverless. Easy to learn
 
 [![Build status][build-status-master-image]][build-status-master]
 
-<!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/ntkme/github-buttons" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<a class="github-button" href="https://github.com/ntkme/github-buttons" aria-label="Star Sinevia/php-serverless on GitHub">Star</a>
 
 [build-status-master]: https://travis-ci.com/Sinevia/php-serverless
 [build-status-master-image]: https://api.travis-ci.com/Sinevia/php-serverless.svg?branch=master
