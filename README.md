@@ -119,10 +119,10 @@ Local CSS and JavaScript files are best to be served minified inline. Helper fun
 <?php echo joinCss(['/css/main.css','/css/secondary.css']); ?>
 ```
 
-Small images serve inline using as Base64 data.
+Small images (i.e. favicon) serve inline as data.
 
 ```
-<img src="<?php echo base64ed('/public/img/avatar.png'); ?>" />
+<img src="<?php echo image2DataUri('/public/img/avatar.png'); ?>" />
 ```
 
 To serve static files separately place them in the public directory.
