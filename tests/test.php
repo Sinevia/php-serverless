@@ -10,7 +10,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 \Sinevia\Registry::set("DB_PASS", "");
 /* END: Set your test settings here */
 
-include dirname(__DIR__) . '/router.php';
+include dirname(__DIR__) . '/serverless.php';
 
 function get($path, $data = [])
 {
