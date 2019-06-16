@@ -12,12 +12,12 @@ The first and fully functional PHP framework built exclusively for serverless. S
 ## FEATURES ##
 
 - Easy to learn and start. All required is in this README file.
-- Fully automated and extendable via RoboFile [go](https://robo.li/).
-- Powerful and super fast router [go](https://github.com/mrjgreen/phroute).
-- Lean database library [go](https://github.com/Sinevia/php-library-sqldb). Eloquent optional.
-- Lean template engine [go](https://github.com/Sinevia/php-library-template). Blade optional.
-- Lean testing framework [go](https://github.com/BafS/Testify.php). PhpUnit optional.
-- Uses tests serverless deployment framework [go](https://serverless.com/)
+- Fully automated and extendable via RoboFile ([learn more](https://robo.li/)).
+- Powerful and super fast router ([learn more](https://github.com/mrjgreen/phroute)).
+- Lean database library ([learn more](https://github.com/Sinevia/php-library-sqldb)). Eloquent optional.
+- Lean template engine ([learn more](https://github.com/Sinevia/php-library-template)). Blade optional.
+- Lean testing framework ([learn more](https://github.com/BafS/Testify.php)). PhpUnit optional.
+- Uses tested serverless deployment framework ([learn more](https://serverless.com/))
 
 
 
