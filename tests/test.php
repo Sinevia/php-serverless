@@ -46,10 +46,9 @@ $tf->test("Testing environment is testing", function ($tf) {
 
 $tf->test("Testing home page", function ($tf) {
     $response = get('/');
-    $tf->assertEquals($response, 'Hello world');
+    $tf->assert(isset($response['body']), "Response contains 'body'");
+    $tf->assert(\Sinevia\StringUtils::hasSubstring($response['body'], 'Hello world'));
+    
 });
-
-//include "guest_tests.php";
-//include "auth_tests.php";
 
 $tf();
