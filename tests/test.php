@@ -23,7 +23,7 @@ function get($path, $data = [])
 function post($path, $data = [])
 {
     $_REQUEST = $data;
-    $_SERVER['REQUEST_METHOD'] = 'GET';
+    $_SERVER['REQUEST_METHOD'] = 'POST';
     $_SERVER['REQUEST_URI'] = $path;
     return main();
 }
@@ -42,6 +42,11 @@ $tf->beforeEach(function ($tf) {
 
 $tf->test("Testing environment is testing", function ($tf) {
     $tf->assertEquals('testing', \Sinevia\Registry::get("ENVIRONMENT"));
+});
+
+$tf->test("Testing home page", function ($tf) {
+    $response = get('/');
+    $tf->assertEquals($response, 'Hello world');
 });
 
 //include "guest_tests.php";
