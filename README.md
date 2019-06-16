@@ -3,7 +3,7 @@
 The first and fully functional PHP framework built for serverless. Easy to learn and start. All required is in this README file.
 
 [![Build status][build-status-master-image]][build-status-master]
-[![GitHub stars](https://img.shields.io/github/stars/Naereen/StrapDown.js.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/)
+[![GitHub stars](https://img.shields.io/github/stars/Sinevia/php-serverless.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Sinevia/php-serverless/stargazers/)
 
 [build-status-master]: https://travis-ci.com/Sinevia/php-serverless
 [build-status-master-image]: https://api.travis-ci.com/Sinevia/php-serverless.svg?branch=master
