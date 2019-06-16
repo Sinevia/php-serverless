@@ -2,6 +2,12 @@
 
 The first and fully functional PHP framework built for serverless. Easy to learn and start. All required is in this README file.
 
+
+[![Build status][build-status-master-image]][build-status-master]
+
+[build-status-master]: https://travis-ci.com/Sinevia/php-serverless
+[build-status-master-image]: https://secure.travis-ci.org/Sinevia/php-serverless.svg?branch=master
+
 ## INSTALLATION ##
 ```
 composer create-project --prefer-dist sinevia/php-serverless .
