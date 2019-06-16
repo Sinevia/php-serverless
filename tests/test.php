@@ -29,7 +29,7 @@ function post($path, $data = [])
 }
 
 \Sinevia\Migrate::setDatabase(db());
-//\App\Models\Content\Node::getDatabase()->debug = true;
+// db()->debug = true;
 
 $tf = new \Testify\Testify("My Test Suite");
 
