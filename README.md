@@ -1,12 +1,22 @@
 # SERVERLESS FRAMEWORK
 
-The first and fully functional PHP framework built for serverless. Easy to learn and start. All required is in this README file.
+The first and fully functional PHP framework built for serverless.
 
 [![Build status][build-status-master-image]][build-status-master]
 [![GitHub stars](https://img.shields.io/github/stars/Sinevia/php-serverless.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Sinevia/php-serverless/stargazers/)
 
 [build-status-master]: https://travis-ci.com/Sinevia/php-serverless
 [build-status-master-image]: https://api.travis-ci.com/Sinevia/php-serverless.svg?branch=master
+
+## FEATURES ##
+
+- Easy to learn and start. All required is in this README file.
+- Powerful and super fast router [go](https://github.com/mrjgreen/phroute){:target="_blank"}.
+- Lean database library [go](https://github.com/Sinevia/php-library-sqldb){:target="_blank"}. Eloquent optional.
+- Lean template engine [go](https://github.com/Sinevia/php-library-template){:target="_blank"}. Blade optional.
+- Lean testing engine [go](https://github.com/BafS/Testify.php){:target="_blank"}. PhpUnit optional.
+
+
 
 ## INSTALLATION ##
 ```
