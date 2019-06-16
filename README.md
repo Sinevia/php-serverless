@@ -49,6 +49,12 @@ vendor/bin/robo serve
 
 Then open in browser: http://localhost:32222/
 
+or using the helper function
+
+```
+vendor/bin/robo open:dev
+```
+
 
 ## DEPLOYMENT ##
 ```
