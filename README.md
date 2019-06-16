@@ -3,9 +3,7 @@
 The first and fully functional PHP framework built for serverless. Easy to learn and start. All required is in this README file.
 
 [![Build status][build-status-master-image]][build-status-master]
-
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<a class="github-button" href="https://github.com/ntkme/github-buttons" aria-label="Star Sinevia/php-serverless on GitHub">Star</a>
+[![GitHub stars](https://img.shields.io/github/stars/Naereen/StrapDown.js.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/)
 
 [build-status-master]: https://travis-ci.com/Sinevia/php-serverless
 [build-status-master-image]: https://api.travis-ci.com/Sinevia/php-serverless.svg?branch=master
