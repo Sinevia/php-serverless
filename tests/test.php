@@ -47,11 +47,19 @@ $tf->test("Testing environment is testing", function ($tf) {
     $tf->assertEquals('testing', \Sinevia\Registry::get("ENVIRONMENT"));
 });
 
+$tf->test("Testing framework is Testify", function ($tf) {
+    $tf->assertEquals('TESTIFY', \Sinevia\Registry::get("TESTING_FRAMEWORK"));
+});
+
+$tf->test("Testing function name is set", function ($tf) {
+    $tf->assertEquals('YOUR_FUNCTION', \Sinevia\Registry::get("FUNCTION_LIVE"));
+    $tf->assertEquals('YOUR_FUNCTION_STAGING', \Sinevia\Registry::get("FUNCTION_STAGING"));
+});
+
 $tf->test("Testing home page", function ($tf) {
     $response = get('/');
     $tf->assert(isset($response['body']), "Response contains 'body'");
     $tf->assert(\Sinevia\StringUtils::hasSubstring($response['body'], 'Hello world'));
-    
 });
 
 $tf();
