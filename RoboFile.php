@@ -6,10 +6,21 @@
  * @see http://robo.li/
  */
 class RoboFile extends \Robo\Tasks {
-    private $function = 'YOURFUNCTION';
-    private $liveUrl = 'https://eu-gb.functions.cloud.ibm.com/api/v1/web/YOURNAMESPACE/default/YOURFUNCTION';
-    private $devUrl = 'http://localhost:32222';
+    private $functionLive = null;
+    private $functionStaging = null;
+    private $urlLive = null;
+    private $urlStaging = null;
+    private $urlLocal = null;
     private $testingFramework = "TESTIFY"; // Options: TESTIFY, PHPUNIT, NONE
+
+    public function __construct()
+    {
+        $this->functionLive = Registry::get('FUNCTION_LIVE');
+        $this->functionStaging = Registry::get('FUNCTION_STAGING');
+        $this->urlLive = Registry::get('URL_LIVE');
+        $this->urlStaging = Registry::get('URL_STAGING');
+        $this->urlLocal = Registry::get('URL_LOCAL');
+    }
     
     /**
      * Installs the serverless framework
@@ -116,68 +127,147 @@ class RoboFile extends \Robo\Tasks {
 
         return true;
     }
-
+    
     /**
-     * Deploys the app to serverless
+     * Deploys the app to serverless live
      */
-    function deploy() {
+    public function deployLive()
+    {
+        $this->taskReplaceInFile('env.php')
+            ->from('ROBO_FUNCTION_NAME')
+            ->to($this->functionLive)
+            ->run();
+
         // 1. Run tests
         $isSuccessful = $this->test();
-        
+
         if ($isSuccessful == false) {
             return $this->say('Failed');
         }
-        
+
         // 2. Run composer (no-dev)
         $isSuccessful = $this->taskExec('composer')
-                ->arg('update')
-                ->option('prefer-dist')
-                ->option('optimize-autoloader')
-                ->run()->wasSuccessful();
-        
+            ->arg('update')
+            ->option('prefer-dist')
+            ->option('optimize-autoloader')
+            ->run()->wasSuccessful();
+
         if ($isSuccessful == false) {
             return $this->say('Failed.');
         }
 
+        $this->taskReplaceInFile('env.php')
+            ->from('$roboFunctionName = "";')
+            ->to('$roboFunctionName = "' . $this->functionLive . '";')
+            ->run();
+
         // 3. Deploy
         $this->taskExec('sls')
-                ->arg('deploy')
-                ->option('function', $this->function)
-                ->run();
+            ->arg('deploy')
+            ->option('function', $this->functionLive)
+            ->run();
+
+            $this->taskReplaceInFile('env.php')
+            ->from('$roboFunctionName = "' . $this->functionLive . '";')
+            ->to('$roboFunctionName = "";')
+            ->run();
     }
-    
+
+    /**
+     * Deploys the app to serverless live
+     */
+    public function deployStaging()
+    {
+        // 1. Run tests
+        $isSuccessful = $this->test();
+
+        if ($isSuccessful == false) {
+            return $this->say('Failed');
+        }
+
+        // 2. Run composer (no-dev)
+        $isSuccessful = $this->taskExec('composer')
+            ->arg('update')
+            ->option('prefer-dist')
+            ->option('optimize-autoloader')
+            ->run()->wasSuccessful();
+
+        if ($isSuccessful == false) {
+            return $this->say('Failed.');
+        }
+
+        $this->taskReplaceInFile('env.php')
+            ->from('$roboFunctionName = "";')
+            ->to('$roboFunctionName = "' . $this->functionStaging . '";')
+            ->run();
+
+        // 3. Deploy
+        $this->taskExec('sls')
+            ->arg('deploy')
+            ->option('function', $this->functionStaging)
+            ->run();
+
+        $this->taskReplaceInFile('env.php')
+            ->from('$roboFunctionName = "' . $this->functionStaging . '";')
+            ->to('$roboFunctionName = "";')
+            ->run();
+    }
+
     /**
      * Retrieves the logs from serverless
      */
-    function logs() {
+    public function logsLive()
+    {
         $this->taskExec('sls')
-                ->arg('logs')
-                ->option('function', $this->function)
-                ->run();
-    }
-    
-    public function openLive() {
-        $isSuccessful = $this->taskExec('start')
-                ->arg('firefox')
-                ->arg($this->liveUrl)
-                ->run();
+            ->arg('logs')
+            ->option('function', $this->functionLive)
+            ->run();
     }
 
-    public function openDev() {
-        $isSuccessful = $this->taskExec('start')
-                ->arg('firefox')
-                ->arg($this->devUrl)
-                ->run();
+    /**
+     * Retrieves the logs from serverless
+     */
+    public function logsStaging()
+    {
+        $this->taskExec('sls')
+            ->arg('logs')
+            ->option('function', $this->functionStaging)
+            ->run();
     }
 
-    public function serve() {
-        $domain = str_replace('http://','',$this->devUrl);
-        
+    public function openLive()
+    {
+        $isSuccessful = $this->taskExec('start')
+            ->arg('firefox')
+            ->arg($this->urlLive)
+            ->run();
+    }
+
+    public function openStaging()
+    {
+        $isSuccessful = $this->taskExec('start')
+            ->arg('firefox')
+            ->arg($this->urlStaging)
+            ->run();
+    }
+
+    public function openLocal()
+    {
+        $isSuccessful = $this->taskExec('start')
+            ->arg('firefox')
+            ->arg($this->urlLocal)
+            ->run();
+    }
+
+    public function serve()
+    {
+        $domain = str_replace('http://', '', $this->urlLocal);
+
         $isSuccessful = $this->taskExec('php')
-                ->arg('-S')
-                ->arg($domain)
-                ->arg('index.php')
-                ->run();
+            ->arg('-S')
+            ->arg($domain)
+            ->arg('index.php')
+            ->run();
     }
 
 }
