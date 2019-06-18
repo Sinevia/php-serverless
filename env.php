@@ -1,5 +1,13 @@
 <?php
 
+/* INIT */
+
+\Sinevia\Registry::setIfNotExists("FUNCTION_LIVE", 'YOUR_FUNCTION');
+\Sinevia\Registry::setIfNotExists("FUNCTION_STAGING", 'YOUR_FUNCTION_STAGING');
+
+/* TESTING */
+\Sinevia\Registry::setIfNotExists("TESTING_FRAMEWORK", 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
+
 /* ENVIRONMENT */
 $env = (strpos(($_SERVER['HTTP_HOST'] ?? ''), 'localhost') === false) ? 'live' : 'local'; // Default is live
 \Sinevia\Registry::setIfNotExists("ENVIRONMENT", $env);
