@@ -1,7 +1,9 @@
 <?php
 
 /* INIT */
-
+\Sinevia\Registry::setIfNotExists("URL_LIVE", 'YOUR_LIVE_URL');
+\Sinevia\Registry::setIfNotExists("URL_STAGING", 'YOUR_STAGING_URL');
+\Sinevia\Registry::setIfNotExists("URL_LOCAL", 'YOUR_LOCAL_URL');
 \Sinevia\Registry::setIfNotExists("FUNCTION_LIVE", 'YOUR_FUNCTION');
 \Sinevia\Registry::setIfNotExists("FUNCTION_STAGING", 'YOUR_FUNCTION_STAGING');
 
