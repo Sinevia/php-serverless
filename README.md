@@ -29,7 +29,6 @@ composer create-project --prefer-dist sinevia/php-serverless .
 ## AFTER INSTALLATION ##
 - Delete the phpunit.xml file, if you are not going to use PHPUnit for testing
 - Change the settings in /serverless.yaml
-- Change the settings in /RoboFile
 - Change the settings in /env.php
 
 
@@ -52,19 +51,20 @@ Then open in browser: http://localhost:32222/
 or using the helper function
 
 ```
-vendor/bin/robo open:dev
+vendor/bin/robo open:local
 ```
 
 
 ## DEPLOYMENT ##
 ```
 vendor/bin/robo init
-vendor/bin/robo deploy
+vendor/bin/robo deploy:staging
+vendor/bin/robo deploy:live
 ```
 
 ## HELPER FUNCTIONS ##
 
-A RoboFile exists with some helper functionality. 
+A RoboFile exists with automated functionality. 
 
 - Serve the site for development
 
@@ -78,11 +78,30 @@ vendor/bin/robo serve
 vendor/bin/robo open:dev
 ```
 
+- Open staging url from terminal
+
+```
+vendor/bin/robo open:staging
+```
+
 - Open live url from terminal
 
 ```
 vendor/bin/robo open:live
 ```
+
+- Deploy to staging
+
+```
+vendor/bin/robo deploy:staging
+```
+
+- Deploy to live
+
+```
+vendor/bin/robo deploy:live
+```
+
 
 ## TESTING ##
 
@@ -108,7 +127,7 @@ vendor/bin/robo test
 
 ### Testing with PHPUnit ###
 
-PHPUnit is a huge PHP testing library with lots of usually "unneeded" dependencies: https://phpunit.de/
+PHPUnit is a huge PHP testing library. Beware it will come with lots of composer dependencies: https://phpunit.de/
 
 To install the framework with all the dependencies
 
@@ -156,7 +175,7 @@ For remote static files use CDN, S3 or other storage.
 
 ## FUNCTIONS ##
 
-Functions are defined in file /app/functions.php.
+Functions are defined in file /app/functions.php. Feel free to change or remove.
 
 ### basePath($path = '') ###
 
@@ -207,9 +226,9 @@ Returns a once value if it exists in $_SESSION. After the value is returned, it 
 Renders a template from app/views. If no extension is specified .phtml is added
 
 ### view($view, $data) ###
-Renders a Blade template from /views. A /cache folder is required. If using Eloquent for data management this function will clash, delete it.
+Renders a Blade template from /views. A /cache folder is required. If using Eloquent for data management this function will clash, delete it, or rename it i.e. to uiBlade($view, $data).
 
-To use this function you must install Blade:
+To use the view function you must install Blade:
 ```
 composer require jenssegers/blade
 ```
