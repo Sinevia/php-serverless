@@ -22,8 +22,15 @@ The first and fully functional PHP framework built exclusively for serverless. S
 
 
 ## INSTALLATION ##
+
+1. Step 1
 ```
 composer create-project --prefer-dist sinevia/php-serverless .
+```
+
+2. Step 2
+```
+vendor/bin/robo init
 ```
 
 ## AFTER INSTALLATION ##
@@ -56,9 +63,16 @@ vendor/bin/robo open:local
 
 
 ## DEPLOYMENT ##
+
+The deployment will run your tests, and will continue only if your tests are successful
+
+To deploy to your staging function
 ```
-vendor/bin/robo init
 vendor/bin/robo deploy:staging
+```
+
+To deploy to your live function
+```
 vendor/bin/robo deploy:live
 ```
 
