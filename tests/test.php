@@ -1,4 +1,7 @@
 <?php
+
+define("ENVIRONMENT", 'testing');
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 /* START: Set your test settings here */
