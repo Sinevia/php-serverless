@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 /**
  * This is project's console commands configuration for Robo task runner.
  *
@@ -15,11 +17,11 @@ class RoboFile extends \Robo\Tasks {
 
     public function __construct()
     {
-        $this->functionLive = Registry::get('FUNCTION_LIVE');
-        $this->functionStaging = Registry::get('FUNCTION_STAGING');
-        $this->urlLive = Registry::get('URL_LIVE');
-        $this->urlStaging = Registry::get('URL_STAGING');
-        $this->urlLocal = Registry::get('URL_LOCAL');
+        $this->functionLive = \Sinevia\Registry::get('FUNCTION_LIVE');
+        $this->functionStaging = \Sinevia\Registry::get('FUNCTION_STAGING');
+        $this->urlLive = \Sinevia\Registry::get('URL_LIVE');
+        $this->urlStaging = \Sinevia\Registry::get('URL_STAGING');
+        $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
     }
     
     /**
