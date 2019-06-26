@@ -13,7 +13,7 @@ class RoboFile extends \Robo\Tasks {
     private $urlLive = null;
     private $urlStaging = null;
     private $urlLocal = null;
-    private $testingFramework = "TESTIFY"; // Options: TESTIFY, PHPUNIT, NONE
+    private $testingFramework = null;
 
     public function __construct()
     {
@@ -22,6 +22,7 @@ class RoboFile extends \Robo\Tasks {
         $this->urlLive = \Sinevia\Registry::get('URL_LIVE');
         $this->urlStaging = \Sinevia\Registry::get('URL_STAGING');
         $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
+        $this->testingFramework = Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
     }
     
     /**
