@@ -98,6 +98,11 @@ class RoboFile extends \Robo\Tasks {
      */
     private function testWithTestify()
     {
+        if (file_exists(__DIR__ . '/tests/test.php') == false) {
+            $this->say('Tests Skipped. Not test file at: ' . __DIR__ . '/tests/test.php');
+            return true;
+        }
+        
         $isSuccessful = $this->taskExec('composer')
             ->arg('update')
             ->option('prefer-dist')
