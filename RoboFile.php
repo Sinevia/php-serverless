@@ -22,7 +22,7 @@ class RoboFile extends \Robo\Tasks {
         $this->urlLive = \Sinevia\Registry::get('URL_LIVE');
         $this->urlStaging = \Sinevia\Registry::get('URL_STAGING');
         $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
-        $this->testingFramework = Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
+        $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
     }
     
     /**
