@@ -34,6 +34,6 @@
     },
     "require-dev": {
         "consolidation/robo": ">=1.4.9",
-        "sinevia/php-library-testify": "^1.3"
+        "sinevia/php-library-testify": "^1.6"
     }
 }
