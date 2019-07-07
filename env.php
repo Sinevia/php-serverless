@@ -47,17 +47,14 @@ if (\Sinevia\Registry::equals("ENVIRONMENT", "live")) {
 \Sinevia\Registry::setIfNotExists("DIR_APP", __DIR__ . '/app');
 \Sinevia\Registry::setIfNotExists("DIR_MIGRATIONS_DIR", __DIR__ . '/app/database/migrations/');
 
-/* DATABASE */
-$dbType = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? 'mysql' : 'mysql';
-$dbHost = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? 'LIVEHOST' : 'DEVHOST';
-$dbName = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? 'LIVENAME' : 'DEVNAME';
-$dbUser = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? 'LIVEUSER' : 'DEVUSER';
-$dbPass = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? 'LIVEPASS' : 'DEVPASS';
-$dbPort = \Sinevia\Registry::equals("ENVIRONMENT", "live") ? '3306' : '3306';
-
-\Sinevia\Registry::setIfNotExists("DB_TYPE", $dbType);
-\Sinevia\Registry::setIfNotExists("DB_HOST", $dbHost);
-\Sinevia\Registry::setIfNotExists("DB_NAME", $dbName);
-\Sinevia\Registry::setIfNotExists("DB_USER", $dbUser);
-\Sinevia\Registry::setIfNotExists("DB_PASS", $dbPass);
-\Sinevia\Registry::setIfNotExists("DB_PORT", $dbPort);
+/* 
+ * CONFIGURATION
+ * The configuration file allows you to add variables speecific for each environment
+ * These are located in /app/config
+ */
+$envConfigVars = include(__DIR__ . '/app/config/' . $env . '.php');
+if(is_array($envConfigVars)){
+    foreach ($envConfigVars as $key => $value) {
+        \Sinevia\Registry::setIfNotExists($key, $value);
+    }
+}
