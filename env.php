@@ -52,9 +52,13 @@ if (\Sinevia\Registry::equals("ENVIRONMENT", "live")) {
  * The configuration file allows you to add variables speecific for each environment
  * These are located in /app/config
  */
-$envConfigVars = include(__DIR__ . '/app/config/' . $env . '.php');
-if(is_array($envConfigVars)){
-    foreach ($envConfigVars as $key => $value) {
-        \Sinevia\Registry::setIfNotExists($key, $value);
+$envConfigFile = __DIR__ . '/app/config/' . $env . '.php';
+if(file_exists($envConfigFile)) {
+    $envConfigVars = include(__DIR__ . '/app/config/' . $env . '.php');
+    
+    if(is_array($envConfigVars)){
+        foreach ($envConfigVars as $key => $value) {
+            \Sinevia\Registry::setIfNotExists($key, $value);
+        }
     }
 }
