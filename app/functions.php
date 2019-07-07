@@ -267,7 +267,7 @@ function ui($view, $vars = array(), $options = array()) {
  * Renders a Blade template
  * @return string
  */
-function view($view, $data) {
+function view($view, $data = []) {
     $blade = new \Jenssegers\Blade\Blade(basePath('views'), basePath('cache'));
     return $blade->render($view, $data);
 }
