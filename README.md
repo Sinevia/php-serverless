@@ -37,6 +37,8 @@ vendor/bin/robo init
 - Delete the phpunit.xml file, if you are not going to use PHPUnit for testing
 - Change the settings in /serverless.yaml
 - Change the settings in /env.php
+- Change the settings in /app/config
+- Add any additional variables needed in /app/config
 
 
 ## DEVELOPMENT ##
@@ -78,7 +80,7 @@ vendor/bin/robo deploy:live
 
 ## HELPER FUNCTIONS ##
 
-A RoboFile exists with automated functionality. 
+A RoboFile exists with automated functionality.
 
 - Serve the site for development
 
