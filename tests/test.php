@@ -36,27 +36,27 @@ function post($path, $data = [])
 
 $tf = new \Testify\Testify("My Test Suite");
 
-$tf->beforeEach(function ($tf) {
+$tf->beforeEach(function (\Testify\Testify $tf) {
     \Sinevia\Migrate::setDirectoryMigration(\Sinevia\Registry::get('DIR_MIGRATIONS_DIR'));
     \Sinevia\Migrate::setDatabase(db());
     \Sinevia\Migrate::$verbose = false;
     \Sinevia\Migrate::up();
 });
 
-$tf->test("Testing environment is testing", function ($tf) {
+$tf->test("Testing environment is testing", function (\Testify\Testify $tf) {
     $tf->assertEquals('testing', \Sinevia\Registry::get("ENVIRONMENT"));
 });
 
-$tf->test("Testing framework is Testify", function ($tf) {
+$tf->test("Testing framework is Testify", function (\Testify\Testify $tf) {
     $tf->assertEquals('TESTIFY', \Sinevia\Registry::get("TESTING_FRAMEWORK"));
 });
 
-$tf->test("Testing function name is set", function ($tf) {
+$tf->test("Testing function name is set", function (\Testify\Testify $tf) {
     $tf->assertEquals('YOUR_FUNCTION', \Sinevia\Registry::get("FUNCTION_LIVE"));
     $tf->assertEquals('YOUR_FUNCTION_STAGING', \Sinevia\Registry::get("FUNCTION_STAGING"));
 });
 
-$tf->test("Testing home page", function ($tf) {
+$tf->test("Testing home page", function (\Testify\Testify $tf) {
     $response = get('/');
     $tf->assert(isset($response['body']), "Response contains 'body'");
     $tf->assert(\Sinevia\StringUtils::hasSubstring($response['body'], 'Hello world'));
