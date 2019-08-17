@@ -249,6 +249,9 @@ class RoboFile extends \Robo\Tasks {
             ->arg('firefox')
             ->arg($this->urlLive)
             ->run();
+        $isSuccessful = $this->taskExec('firefox')
+            ->arg($this->urlLive)
+            ->run();
     }
 
     public function openStaging()
@@ -257,12 +260,18 @@ class RoboFile extends \Robo\Tasks {
             ->arg('firefox')
             ->arg($this->urlStaging)
             ->run();
+        $isSuccessful = $this->taskExec('firefox')
+            ->arg($this->urlStaging)
+            ->run();
     }
 
     public function openLocal()
     {
         $isSuccessful = $this->taskExec('start')
             ->arg('firefox')
+            ->arg($this->urlLocal)
+            ->run();
+        $isSuccessful = $this->taskExec('firefox')
             ->arg($this->urlLocal)
             ->run();
     }
