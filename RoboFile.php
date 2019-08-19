@@ -127,8 +127,11 @@ class RoboFile extends \Robo\Tasks {
         }
         
         if ($output == "") {
-            $this->say('Tests Failed. No output');
-            return false;
+            $output = shell_exec('php tests/test.php'); // Re-test, as no output on Linux Mint
+            if (trim($output == "")) {
+                $this->say('Tests Failed. No output');
+                return false;
+            }
         }
 
         if (strpos($output, 'Tests: [fail]') > -1) {
