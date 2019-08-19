@@ -119,10 +119,15 @@ class RoboFile extends \Robo\Tasks {
             ->printed(true)
             ->run();
 
-        $output = $result->getMessage();
+        $output = trim($result->getMessage());
 
         if ($result->wasSuccessful() == false) {
             $this->say('Test Failed');
+            return false;
+        }
+        
+        if ($output == "") {
+            $this->say('Tests Failed. No output');
             return false;
         }
 
