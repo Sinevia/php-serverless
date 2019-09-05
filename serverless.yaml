@@ -1,12 +1,21 @@
 service: YOURSERVICE
 package:
     exclude:
-        - tests
-        - nbproject/**        
-        - vendor/bin/**
+        - .git/**
+        - .serverless/**
         - .vagrant/**
-        - RoboFile.php
+        - nbproject/**        
+        - new/** 
+        - old/**
+        - tests/**
+        - vendor/bin/**
+        - .gitignore
+        - .travis.yml
+        - composer.json
+        - composer.lock
+        - package.json
         - phpunit.xml
+        - RoboFile.php
 
 provider:
   name: openwhisk
