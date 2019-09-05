@@ -24,7 +24,7 @@ class RoboFile extends \Robo\Tasks {
         $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
         $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
     }
-    
+
     /**
      * Installs the serverless framework
      */
@@ -32,25 +32,25 @@ class RoboFile extends \Robo\Tasks {
         $isSuccessful = $this->taskExec('npm')
                 ->arg('update')
                 ->run()->wasSuccessful();
-        
+
         if ($isSuccessful == false) {
             return $this->say('Failed.');
         }
     }
-    
+
     function test()
     {
         if ($this->testingFramework == "TESTIFY") {
             return $this->testWithTestify();
         }
-        
+
         if ($this->testingFramework == "PHPUNIT") {
             return $this->testWithPhpUnit();
         }
-        
+
         return true;
     }
-    
+
     /**
      * Testing with PHPUnit
      * @url https://phpunit.de/index.html
@@ -59,21 +59,21 @@ class RoboFile extends \Robo\Tasks {
     function testWithPhpUnit()
     {
         $this->say('Running PHPUnit tests...');
-        
+
         $isSuccessful = $this->taskExec('composer')
             ->arg('update')
             ->option('prefer-dist')
             ->option('optimize-autoloader')
             ->run()
             ->wasSuccessful();
-        
+
         // 1. Run composer
         $isSuccessful = $this->taskExec('composer')
                 ->arg('update')
                 ->option('prefer-dist')
                 ->option('optimize-autoloader')
                 ->run()->wasSuccessful();
-        
+
         if ($isSuccessful == false) {
             return false;
         }
@@ -84,14 +84,14 @@ class RoboFile extends \Robo\Tasks {
                 ->option('configuration', '../../phpunit.xml')
                 ->run()
                 ->wasSuccessful();
-                
+
         if ($isSuccessful == false) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Testing with Testify
      * @url https://github.com/BafS/Testify.php
@@ -103,7 +103,9 @@ class RoboFile extends \Robo\Tasks {
             $this->say('Tests Skipped. Not test file at: ' . __DIR__ . '/tests/test.php');
             return true;
         }
-        
+
+        $this->say('Running tests...');
+
         $isSuccessful = $this->taskExec('composer')
             ->arg('update')
             ->option('prefer-dist')
@@ -111,12 +113,10 @@ class RoboFile extends \Robo\Tasks {
             ->run()
             ->wasSuccessful();
 
-        $this->say('Running tests...');
-
         $result = $this->taskExec('php')
             ->dir('tests')
             ->arg('test.php')
-            ->printed(true)
+            ->printOutput(true)
             ->run();
 
         $output = trim($result->getMessage());
@@ -125,7 +125,7 @@ class RoboFile extends \Robo\Tasks {
             $this->say('Test Failed');
             return false;
         }
-        
+
         if ($output == "") {
             $output = shell_exec('php tests/test.php'); // Re-test, as no output on Linux Mint
             if (trim($output == "")) {
@@ -143,7 +143,7 @@ class RoboFile extends \Robo\Tasks {
 
         return true;
     }
-    
+
     /**
      * Deploys the app to serverless live
      */
