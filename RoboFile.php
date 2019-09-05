@@ -296,6 +296,10 @@ class RoboFile extends \Robo\Tasks {
         }
     }
 
+    /**
+     * Serves the application locally using the PHP built-in server
+     * @return void
+     */
     public function serve()
     {
         $domain = str_replace('http://', '', $this->urlLocal);
