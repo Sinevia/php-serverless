@@ -253,35 +253,47 @@ class RoboFile extends \Robo\Tasks {
 
     public function openLive()
     {
-        $isSuccessful = $this->taskExec('start')
-            ->arg('firefox')
-            ->arg($this->urlLive)
-            ->run();
-        $isSuccessful = $this->taskExec('firefox')
-            ->arg($this->urlLive)
-            ->run();
+        if (self::isWindows()) {
+            $isSuccessful = $this->taskExec('start')
+                ->arg('firefox')
+                ->arg($this->urlLive)
+                ->run();
+        }
+        if (self::isWindows() == false) {
+            $isSuccessful = $this->taskExec('firefox')
+                ->arg($this->urlLive)
+                ->run();
+        }
     }
 
     public function openStaging()
     {
-        $isSuccessful = $this->taskExec('start')
-            ->arg('firefox')
-            ->arg($this->urlStaging)
-            ->run();
-        $isSuccessful = $this->taskExec('firefox')
-            ->arg($this->urlStaging)
-            ->run();
+        if (self::isWindows()) {
+            $isSuccessful = $this->taskExec('start')
+                ->arg('firefox')
+                ->arg($this->urlStaging)
+                ->run();
+        }
+        if (self::isWindows() == false) {
+            $isSuccessful = $this->taskExec('firefox')
+                ->arg($this->urlStaging)
+                ->run();
+        }
     }
 
     public function openLocal()
     {
-        $isSuccessful = $this->taskExec('start')
-            ->arg('firefox')
-            ->arg($this->urlLocal)
-            ->run();
-        $isSuccessful = $this->taskExec('firefox')
-            ->arg($this->urlLocal)
-            ->run();
+        if (self::isWindows()) {
+            $isSuccessful = $this->taskExec('start')
+                ->arg('firefox')
+                ->arg($this->urlLocal)
+                ->run();
+        }
+        if (self::isWindows() == false) {
+            $isSuccessful = $this->taskExec('firefox')
+                ->arg($this->urlLocal)
+                ->run();
+        }
     }
 
     public function serve()
@@ -293,6 +305,14 @@ class RoboFile extends \Robo\Tasks {
             ->arg($domain)
             ->arg('index.php')
             ->run();
+    }
+
+    private static function isWindows()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return true;
+        }
+        return false;
     }
 
 }
