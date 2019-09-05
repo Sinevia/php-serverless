@@ -23,6 +23,11 @@ class RoboFile extends \Robo\Tasks {
         $this->urlStaging = \Sinevia\Registry::get('URL_STAGING');
         $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
         $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
+
+        // Initialize serverless
+        if (is_dir(__DIR__.'/node_modules') == false){
+            $this->init();
+        }
     }
 
     /**
@@ -38,7 +43,11 @@ class RoboFile extends \Robo\Tasks {
         }
     }
 
-    function test()
+    /**
+     * Runs the tests
+     * @return boolean true if tests successful, false otherwise
+     */
+    public function test()
     {
         if ($this->testingFramework == "TESTIFY") {
             return $this->testWithTestify();
