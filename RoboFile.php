@@ -152,15 +152,21 @@ class RoboFile extends \Robo\Tasks {
 
         return true;
     }
+    
+    public function deploy($environment){
+        /* START: Reload enviroment */
+        \Sinevia\Registry::set("ENVIRONMENT", $environment);
+        loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+        /* END: Reload enviroment */
 
-    /**
-     * Deploys the app to serverless live
-     */
-    public function deployLive()
-    {
+        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME','');
+        if($functionName==""){
+            return $this->say('SERVERLESS_FUNCTION_NAME not set for '.$environment);
+        }
+        
         $this->taskReplaceInFile('env.php')
             ->from('ROBO_FUNCTION_NAME')
-            ->to($this->functionLive)
+            ->to($functionName)
             ->run();
 
         // 1. Run tests
@@ -170,7 +176,7 @@ class RoboFile extends \Robo\Tasks {
             return $this->say('Failed');
         }
 
-        // 2. Run composer (no-dev)
+        // // 2. Run composer (no-dev)
         $isSuccessful = $this->taskExec('composer')
             ->arg('update')
             ->option('prefer-dist')
@@ -182,81 +188,40 @@ class RoboFile extends \Robo\Tasks {
         }
 
         $this->taskReplaceInFile('env.php')
-            ->from('$roboFunctionName = "";')
-            ->to('$roboFunctionName = "' . $this->functionLive . '";')
+            ->from('("ENVIRONMENT", "unrecognized")')
+            ->to('("ENVIRONMENT", "'.$environment.'")')
             ->run();
 
         // 3. Deploy
         $this->taskExec('sls')
             ->arg('deploy')
-            ->option('function', $this->functionLive)
-            ->run();
-
-            $this->taskReplaceInFile('env.php')
-            ->from('$roboFunctionName = "' . $this->functionLive . '";')
-            ->to('$roboFunctionName = "";')
-            ->run();
-    }
-
-    /**
-     * Deploys the app to serverless live
-     */
-    public function deployStaging()
-    {
-        // 1. Run tests
-        $isSuccessful = $this->test();
-
-        if ($isSuccessful == false) {
-            return $this->say('Failed');
-        }
-
-        // 2. Run composer (no-dev)
-        $isSuccessful = $this->taskExec('composer')
-            ->arg('update')
-            ->option('prefer-dist')
-            ->option('optimize-autoloader')
-            ->run()->wasSuccessful();
-
-        if ($isSuccessful == false) {
-            return $this->say('Failed.');
-        }
-
-        $this->taskReplaceInFile('env.php')
-            ->from('$roboFunctionName = "";')
-            ->to('$roboFunctionName = "' . $this->functionStaging . '";')
-            ->run();
-
-        // 3. Deploy
-        $this->taskExec('sls')
-            ->arg('deploy')
-            ->option('function', $this->functionStaging)
+            ->option('function', $functionName)
             ->run();
 
         $this->taskReplaceInFile('env.php')
-            ->from('$roboFunctionName = "' . $this->functionStaging . '";')
-            ->to('$roboFunctionName = "";')
+            ->from('("ENVIRONMENT", "'.$environment.'")')
+            ->to('("ENVIRONMENT", "unrecognized")')
             ->run();
     }
 
     /**
      * Retrieves the logs from serverless
      */
-    public function logsLive()
+    public function logs($environment)
     {
-        $this->taskExec('sls')
-            ->arg('logs')
-            ->option('function', $this->functionLive)
-            ->run();
-    }
+        /* START: Reload enviroment */
+        \Sinevia\Registry::set("ENVIRONMENT", $environment);
+        loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+        /* END: Reload enviroment */
 
-    /**
-     * Retrieves the logs from serverless
-     */
-    public function logsStaging()
-    {
+        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME','');
+        if($functionName==""){
+            return $this->say('SERVERLESS_FUNCTION_NAME not set for '.$environment);
+        }
+        
         $this->taskExec('sls')
             ->arg('logs')
-            ->option('function', $this->functionStaging)
+            ->option('function', $functionName)
             ->run();
     }
 
