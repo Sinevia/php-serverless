@@ -36,8 +36,8 @@ vendor/bin/robo init
 ## AFTER INSTALLATION ##
 - Delete the phpunit.xml file, if you are not going to use PHPUnit for testing
 - Change the settings in /serverless.yaml
-- Change the settings in /env.php
 - Change the settings in /app/config
+- Change the settings in /env.php (not required usually)
 - Add any additional variables needed in /app/config
 
 
@@ -60,7 +60,7 @@ Then open in browser: http://localhost:32222/
 or using the helper function
 
 ```
-vendor/bin/robo open:local
+vendor/bin/robo open local
 ```
 
 
@@ -70,12 +70,12 @@ The deployment will run your tests, and will continue only if your tests are suc
 
 To deploy to your staging function
 ```
-vendor/bin/robo deploy:staging
+vendor/bin/robo deploy staging
 ```
 
 To deploy to your live function
 ```
-vendor/bin/robo deploy:live
+vendor/bin/robo deploy live
 ```
 
 ## HELPER FUNCTIONS ##
@@ -91,31 +91,31 @@ vendor/bin/robo serve
 - Open dev url from terminal
 
 ```
-vendor/bin/robo open:dev
+vendor/bin/robo open dev
 ```
 
 - Open staging url from terminal
 
 ```
-vendor/bin/robo open:staging
+vendor/bin/robo open staging
 ```
 
 - Open live url from terminal
 
 ```
-vendor/bin/robo open:live
+vendor/bin/robo open live
 ```
 
 - Deploy to staging
 
 ```
-vendor/bin/robo deploy:staging
+vendor/bin/robo deploy staging
 ```
 
 - Deploy to live
 
 ```
-vendor/bin/robo deploy:live
+vendor/bin/robo deploy live
 ```
 
 
