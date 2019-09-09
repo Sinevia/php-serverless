@@ -4,14 +4,10 @@ define("ENVIRONMENT", 'testing');
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-/* START: Set your test settings here */
+/* START: Load test config settings */
 \Sinevia\Registry::set("ENVIRONMENT", "testing");
-\Sinevia\Registry::set("DB_TYPE", "sqlite");
-\Sinevia\Registry::set("DB_HOST", ":memory:");
-\Sinevia\Registry::set("DB_NAME", ":memory:");
-\Sinevia\Registry::set("DB_USER", "test");
-\Sinevia\Registry::set("DB_PASS", "");
-/* END: Set your test settings here */
+loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+/* END: Load test config settings */
 
 include dirname(__DIR__) . '/serverless.php';
 
@@ -52,8 +48,8 @@ $tf->test("Testing framework is Testify", function (\Testify\Testify $tf) {
 });
 
 $tf->test("Testing function name is set", function (\Testify\Testify $tf) {
-    $tf->assertEquals('YOUR_FUNCTION', \Sinevia\Registry::get("FUNCTION_LIVE"));
-    $tf->assertEquals('YOUR_FUNCTION_STAGING', \Sinevia\Registry::get("FUNCTION_STAGING"));
+    //$tf->assertEquals('YOUR_FUNCTION', \Sinevia\Registry::get("FUNCTION_LIVE"));
+    //$tf->assertEquals('YOUR_FUNCTION_STAGING', \Sinevia\Registry::get("FUNCTION_STAGING"));
 });
 
 $tf->test("Testing home page", function (\Testify\Testify $tf) {
