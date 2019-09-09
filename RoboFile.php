@@ -8,20 +8,10 @@ require_once __DIR__ . '/vendor/autoload.php';
  * @see http://robo.li/
  */
 class RoboFile extends \Robo\Tasks {
-    private $functionLive = null;
-    private $functionStaging = null;
-    private $urlLive = null;
-    private $urlStaging = null;
-    private $urlLocal = null;
     private $testingFramework = null;
 
     public function __construct()
     {
-        $this->functionLive = \Sinevia\Registry::get('FUNCTION_LIVE');
-        $this->functionStaging = \Sinevia\Registry::get('FUNCTION_STAGING');
-        $this->urlLive = \Sinevia\Registry::get('URL_LIVE');
-        $this->urlStaging = \Sinevia\Registry::get('URL_STAGING');
-        $this->urlLocal = \Sinevia\Registry::get('URL_LOCAL');
         $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
 
         // Initialize serverless
@@ -225,58 +215,48 @@ class RoboFile extends \Robo\Tasks {
             ->run();
     }
 
-    public function openLive()
+    public function open($environment)
     {
+        /* START: Reload enviroment */
+        \Sinevia\Registry::set("ENVIRONMENT", $environment);
+        loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+        /* END: Reload enviroment */
+
+        $url = \Sinevia\Registry::get('URL_BASE','');
+        if($url==""){
+            return $this->say('URL_BASE not set for '.$environment);
+        }
+        
         if (self::isWindows()) {
             $isSuccessful = $this->taskExec('start')
                 ->arg('firefox')
-                ->arg($this->urlLive)
+                ->arg($url)
                 ->run();
         }
         if (self::isWindows() == false) {
             $isSuccessful = $this->taskExec('firefox')
-                ->arg($this->urlLive)
+                ->arg($url)
                 ->run();
         }
     }
-
-    public function openStaging()
-    {
-        if (self::isWindows()) {
-            $isSuccessful = $this->taskExec('start')
-                ->arg('firefox')
-                ->arg($this->urlStaging)
-                ->run();
-        }
-        if (self::isWindows() == false) {
-            $isSuccessful = $this->taskExec('firefox')
-                ->arg($this->urlStaging)
-                ->run();
-        }
-    }
-
-    public function openLocal()
-    {
-        if (self::isWindows()) {
-            $isSuccessful = $this->taskExec('start')
-                ->arg('firefox')
-                ->arg($this->urlLocal)
-                ->run();
-        }
-        if (self::isWindows() == false) {
-            $isSuccessful = $this->taskExec('firefox')
-                ->arg($this->urlLocal)
-                ->run();
-        }
-    }
-
+    
     /**
      * Serves the application locally using the PHP built-in server
      * @return void
      */
     public function serve()
     {
-        $domain = str_replace('http://', '', $this->urlLocal);
+        /* START: Reload enviroment */
+        \Sinevia\Registry::set("ENVIRONMENT", 'local');
+        loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+        /* END: Reload enviroment */
+
+        $url = \Sinevia\Registry::get('URL_BASE','');
+        if($url==""){
+            return $this->say('URL_BASE not set for '.$environment);
+        }
+        
+        $domain = str_replace('http://', '', $url);
 
         $isSuccessful = $this->taskExec('php')
             ->arg('-S')
