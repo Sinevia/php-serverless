@@ -7,7 +7,8 @@ require_once __DIR__ . '/vendor/autoload.php';
  *
  * @see http://robo.li/
  */
-class RoboFile extends \Robo\Tasks {
+class RoboFile extends \Robo\Tasks
+{
     private $testingFramework = null;
 
     public function __construct()
@@ -15,7 +16,7 @@ class RoboFile extends \Robo\Tasks {
         $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
 
         // Initialize serverless
-        if (is_dir(__DIR__.'/node_modules') == false){
+        if (is_dir(__DIR__ . '/node_modules') == false) {
             $this->init();
         }
     }
@@ -23,10 +24,11 @@ class RoboFile extends \Robo\Tasks {
     /**
      * Installs the serverless framework
      */
-    function init() {
+    function init()
+    {
         $isSuccessful = $this->taskExec('npm')
-                ->arg('update')
-                ->run()->wasSuccessful();
+            ->arg('update')
+            ->run()->wasSuccessful();
 
         if ($isSuccessful == false) {
             return $this->say('Failed.');
@@ -68,10 +70,10 @@ class RoboFile extends \Robo\Tasks {
 
         // 1. Run composer
         $isSuccessful = $this->taskExec('composer')
-                ->arg('update')
-                ->option('prefer-dist')
-                ->option('optimize-autoloader')
-                ->run()->wasSuccessful();
+            ->arg('update')
+            ->option('prefer-dist')
+            ->option('optimize-autoloader')
+            ->run()->wasSuccessful();
 
         if ($isSuccessful == false) {
             return false;
@@ -79,10 +81,10 @@ class RoboFile extends \Robo\Tasks {
 
         // 2. Run tests
         $isSuccessful = $this->taskExec('phpunit')
-                ->dir('vendor/bin')
-                ->option('configuration', '../../phpunit.xml')
-                ->run()
-                ->wasSuccessful();
+            ->dir('vendor/bin')
+            ->option('configuration', '../../phpunit.xml')
+            ->run()
+            ->wasSuccessful();
 
         if ($isSuccessful == false) {
             return false;
@@ -142,31 +144,42 @@ class RoboFile extends \Robo\Tasks {
 
         return true;
     }
-    
-    public function deploy($environment){
-        /* START: Reload enviroment */
+
+    public function deploy($environment)
+    {
+        // 1. Does the configuration file exists? No => Exit
+        $this->say('1. Checking configuration...');
+        $envConfigFile = \Sinevia\Registry::get('DIR_CONFIG') . '/' . $environment . '.php';
+
+        if (file_exists($envConfigFile) == false) {
+            return $this->say('Configuration file for environment "' . $environment . '" missing at: ' . $envConfigFile);
+        }
+
+        // 2. Load the configuration file for the enviroment
         \Sinevia\Registry::set("ENVIRONMENT", $environment);
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
-        /* END: Reload enviroment */
 
-        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME','');
-        if($functionName==""){
-            return $this->say('SERVERLESS_FUNCTION_NAME not set for '.$environment);
+        // 3. Check if serverless function name is set
+        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME', '');
+
+        if ($functionName == "") {
+            return $this->say('SERVERLESS_FUNCTION_NAME not set for environment "' . $environment . '"');
         }
-        
-        $this->taskReplaceInFile('env.php')
-            ->from('ROBO_FUNCTION_NAME')
-            ->to($functionName)
-            ->run();
 
-        // 1. Run tests
+        if ($functionName == "{YOUR_LIVE_SERVERLESS_FUNCTION_NAME}") {
+            return $this->say('SERVERLESS_FUNCTION_NAME not set for environment "' . $environment . '"');
+        }
+
+        // 4. Run tests
+        $this->say('2. Running tests...');
         $isSuccessful = $this->test();
 
         if ($isSuccessful == false) {
             return $this->say('Failed');
         }
 
-        // // 2. Run composer (no-dev)
+        // 5. Run composer (no-dev)
+        $this->say('3. Updating composer dependncies...');
         $isSuccessful = $this->taskExec('composer')
             ->arg('update')
             ->option('prefer-dist')
@@ -177,20 +190,39 @@ class RoboFile extends \Robo\Tasks {
             return $this->say('Failed.');
         }
 
+        // 6. Prepare for deployment
+        $this->say('4. Prepare for deployment...');
         $this->taskReplaceInFile('env.php')
             ->from('("ENVIRONMENT", "unrecognized")')
-            ->to('("ENVIRONMENT", "'.$environment.'")')
+            ->to('("ENVIRONMENT", "' . $environment . '")')
             ->run();
 
-        // 3. Deploy
-        $this->taskExec('sls')
-            ->arg('deploy')
-            ->option('function', $functionName)
+        $this->taskReplaceInFile('serverless.yaml')
+            ->from('{YOURFUNCTION}')
+            ->to($functionName)
             ->run();
 
+
+        // 7. Deploy
+        try {
+            $this->say('5. Deploying...');
+            $this->taskExec('sls')
+                ->arg('deploy')
+                ->option('function', $functionName)
+                ->run();
+        } catch (\Exception $e) {
+            $this->say('There was an exception: ' . $e->getMessage());
+        }
+
+        // 8. Cleanup after deployment
+        $this->say('6. Cleaning up...');
         $this->taskReplaceInFile('env.php')
-            ->from('("ENVIRONMENT", "'.$environment.'")')
+            ->from('("ENVIRONMENT", "' . $environment . '")')
             ->to('("ENVIRONMENT", "unrecognized")')
+            ->run();
+        $this->taskReplaceInFile('serverless.yaml')
+            ->from($functionName)
+            ->to('{YOURFUNCTION}')
             ->run();
     }
 
@@ -204,11 +236,11 @@ class RoboFile extends \Robo\Tasks {
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
         /* END: Reload enviroment */
 
-        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME','');
-        if($functionName==""){
-            return $this->say('SERVERLESS_FUNCTION_NAME not set for '.$environment);
+        $functionName = \Sinevia\Registry::get('SERVERLESS_FUNCTION_NAME', '');
+        if ($functionName == "") {
+            return $this->say('SERVERLESS_FUNCTION_NAME not set for ' . $environment);
         }
-        
+
         $this->taskExec('sls')
             ->arg('logs')
             ->option('function', $functionName)
@@ -222,11 +254,11 @@ class RoboFile extends \Robo\Tasks {
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
         /* END: Reload enviroment */
 
-        $url = \Sinevia\Registry::get('URL_BASE','');
-        if($url==""){
-            return $this->say('URL_BASE not set for '.$environment);
+        $url = \Sinevia\Registry::get('URL_BASE', '');
+        if ($url == "") {
+            return $this->say('URL_BASE not set for ' . $environment);
         }
-        
+
         if (self::isWindows()) {
             $isSuccessful = $this->taskExec('start')
                 ->arg('firefox')
@@ -239,7 +271,7 @@ class RoboFile extends \Robo\Tasks {
                 ->run();
         }
     }
-    
+
     /**
      * Serves the application locally using the PHP built-in server
      * @return void
@@ -251,11 +283,11 @@ class RoboFile extends \Robo\Tasks {
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
         /* END: Reload enviroment */
 
-        $url = \Sinevia\Registry::get('URL_BASE','');
-        if($url==""){
-            return $this->say('URL_BASE not set for '.$environment);
+        $url = \Sinevia\Registry::get('URL_BASE', '');
+        if ($url == "") {
+            return $this->say('URL_BASE not set for ' . $environment);
         }
-        
+
         $domain = str_replace('http://', '', $url);
 
         $isSuccessful = $this->taskExec('php')
@@ -272,5 +304,4 @@ class RoboFile extends \Robo\Tasks {
         }
         return false;
     }
-
 }
