@@ -10,7 +10,7 @@
 \Sinevia\Registry::setIfNotExists("DIR_MIGRATIONS_DIR", __DIR__ . '/app/database/migrations/');
 
 /* ENVIRONMENT */
-\Sinevia\Registry::setIfNotExists("ENVIRONMENT", "unrecognized"); // !!! Do not change will be modified automatically during deployment
+\Sinevia\Registry::setIfNotExists("ENVIRONMENT", isLocal() ? "local" : "unrecognized"); // !!! Do not change will be modified automatically during deployment
 
 /* 
  * LOAD ENVIRONMENT CONFIGURATIONS
@@ -33,3 +33,17 @@ function loadEnvConf($environment)
 }
 
 loadEnvConf(\Sinevia\Registry::get('ENVIRONMENT'));
+
+function isLocal()
+{
+    $whitelist = array(
+        '127.0.0.1',
+        '::1'
+    );
+
+    if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+        return true;
+    }
+
+    false;
+}
