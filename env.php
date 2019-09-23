@@ -6,6 +6,7 @@
 /* FILE SYSTEM */
 \Sinevia\Registry::setIfNotExists("DIR_BASE", __DIR__);
 \Sinevia\Registry::setIfNotExists("DIR_APP", __DIR__ . '/app');
+\Sinevia\Registry::setIfNotExists("DIR_CONFIG", __DIR__ . '/app/config');
 \Sinevia\Registry::setIfNotExists("DIR_MIGRATIONS_DIR", __DIR__ . '/app/database/migrations/');
 
 /* ENVIRONMENT */
@@ -18,10 +19,11 @@
  */
 function loadEnvConf($environment)
 {
-    $envConfigFile = __DIR__ . '/app/config/' . $environment . '.php';
+    $envConfigFile = \Sinevia\Registry::get('DIR_CONFIG') . '/' . $environment . '.php';
+
     if (file_exists($envConfigFile)) {
-        $envConfigVars = include(__DIR__ . '/app/config/' . $environment . '.php');
-    
+        $envConfigVars = include($envConfigFile);
+
         if (is_array($envConfigVars)) {
             foreach ($envConfigVars as $key => $value) {
                 \Sinevia\Registry::setIfNotExists($key, $value);
