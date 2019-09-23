@@ -35,10 +35,8 @@ vendor/bin/robo init
 
 ## AFTER INSTALLATION ##
 - Delete the phpunit.xml file, if you are not going to use PHPUnit for testing
-- Change the settings in /serverless.yaml
-- Change the settings in /app/config
+- Change the settings in /app/config (serverless function name, etc)
 - Change the settings in /env.php (not required usually)
-- Add any additional variables needed in /app/config
 
 
 ## DEVELOPMENT ##
@@ -124,6 +122,7 @@ vendor/bin/robo deploy live
 Two testing frameworks supported out of the box - Testify.php (preferred, and preinstaled) and PHPUnit.
 
 To decide which modify the setting in the RoboFile.
+
 
 ### Testing with Testify.php ###
 
