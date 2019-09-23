@@ -36,6 +36,10 @@ loadEnvConf(\Sinevia\Registry::get('ENVIRONMENT'));
 
 function isLocal()
 {
+    if (isset($_SERVER['REMOTE_ADDR']) == false) {
+        return false;
+    }
+
     $whitelist = array(
         '127.0.0.1',
         '::1'
