@@ -14,11 +14,6 @@ class RoboFile extends \Robo\Tasks
     public function __construct()
     {
         $this->testingFramework = \Sinevia\Registry::get('TESTING_FRAMEWORK', 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
-
-        // Initialize serverless
-        if (is_dir(__DIR__ . '/node_modules') == false) {
-            $this->init();
-        }
     }
 
     /**
@@ -26,6 +21,9 @@ class RoboFile extends \Robo\Tasks
      */
     function init()
     {
+        if (is_dir(__DIR__ . '/node_modules') == true) {
+            return true;
+        }
         $isSuccessful = $this->taskExec('npm')
             ->arg('update')
             ->run()->wasSuccessful();
@@ -41,6 +39,8 @@ class RoboFile extends \Robo\Tasks
      */
     public function test()
     {
+        $this->init();
+
         if ($this->testingFramework == "TESTIFY") {
             return $this->testWithTestify();
         }
@@ -302,6 +302,8 @@ class RoboFile extends \Robo\Tasks
      */
     public function serve()
     {
+        $this->init();
+
         /* START: Reload enviroment */
         \Sinevia\Registry::set("ENVIRONMENT", 'local');
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
