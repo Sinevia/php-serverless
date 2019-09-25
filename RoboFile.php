@@ -145,6 +145,30 @@ class RoboFile extends \Robo\Tasks
         return true;
     }
 
+    public function migrate($environment)
+    {
+        // 1. Does the configuration file exists? No => Exit
+        $this->say('1. Checking configuration...');
+        $envConfigFile = \Sinevia\Registry::get('DIR_CONFIG') . '/' . $environment . '.php';
+
+        if (file_exists($envConfigFile) == false) {
+            return $this->say('Configuration file for environment "' . $environment . '" missing at: ' . $envConfigFile);
+        }
+
+        // 2. Load the configuration file for the enviroment
+        \Sinevia\Registry::set("ENVIRONMENT", $environment);
+        loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+
+
+        require 'app/functions.php';
+
+        \Sinevia\Migrate::setDirectoryMigration(\Sinevia\Registry::get('DIR_MIGRATIONS_DIR'));
+        \Sinevia\Migrate::setDatabase(db());
+        \Sinevia\Migrate::$verbose = false;
+        \Sinevia\Migrate::up();
+    }
+
+
     public function deploy($environment)
     {
         // 1. Does the configuration file exists? No => Exit
@@ -285,7 +309,7 @@ class RoboFile extends \Robo\Tasks
 
         $url = \Sinevia\Registry::get('URL_BASE', '');
         if ($url == "") {
-            return $this->say('URL_BASE not set for ' . $environment);
+            return $this->say('URL_BASE not set for local');
         }
 
         $domain = str_replace('http://', '', $url);
