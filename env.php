@@ -17,6 +17,16 @@
  * The configuration files allow to add variables specific for each environment
  * These are located in /app/config
  */
+loadEnvConf(\Sinevia\Registry::get('ENVIRONMENT'));
+
+
+/* REQUIRED FUNCTIONS */
+
+/**
+ * Loads the environment configuration variables
+ * @param string $environment
+ * @return void
+ */
 function loadEnvConf($environment)
 {
     $envConfigFile = \Sinevia\Registry::get('DIR_CONFIG') . '/' . $environment . '.php';
@@ -32,8 +42,10 @@ function loadEnvConf($environment)
     }
 }
 
-loadEnvConf(\Sinevia\Registry::get('ENVIRONMENT'));
-
+/**
+ * Checks whether the script runs on localhost
+ * @return boolean
+ */
 function isLocal()
 {
     if (isset($_SERVER['REMOTE_ADDR']) == false) {
