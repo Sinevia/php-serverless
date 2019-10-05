@@ -2,10 +2,10 @@
 
 return [
     'URL_BASE' => "localhost:32222",
-    "DB_TYPE" => 'mysql',
-    "DB_HOST" => 'localhost',
-    "DB_NAME" => 'DBNAME',
-    "DB_USER" => 'DBUSER',
-    "DB_PASS" => 'DBPASS',
-    "DB_PORT" => '3306',
+    "DB_TYPE" => 'sqlite',
+    "DB_HOST" => dirname(__DIR__) . '/database',
+    "DB_NAME" => 'local.database.sqlite3',
+    "DB_USER" => '',
+    "DB_PASS" => '',
+    "DB_PORT" => '',
 ];

@@ -1,6 +1,7 @@
 /nbproject/
-/node_modules
-/vendor
+/node_modules/
+/vendor/
 .phpunit.result.cache
 composer.lock
 package-lock.json
+app/database/local.database.sqlite3

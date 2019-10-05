@@ -147,8 +147,10 @@ class RoboFile extends \Robo\Tasks
 
     public function migrate($environment)
     {
+        $this->say('============= START: Migrations ============');
+        
         // 1. Does the configuration file exists? No => Exit
-        $this->say('1. Checking configuration...');
+        $this->say('1. Checking configuration for environment "' . $environment . '"...');
         $envConfigFile = \Sinevia\Registry::get('DIR_CONFIG') . '/' . $environment . '.php';
 
         if (file_exists($envConfigFile) == false) {
@@ -156,16 +158,24 @@ class RoboFile extends \Robo\Tasks
         }
 
         // 2. Load the configuration file for the enviroment
+        $this->say('2. Loading configuration for environment "' . $environment . '"...');
         \Sinevia\Registry::set("ENVIRONMENT", $environment);
         loadEnvConf(\Sinevia\Registry::get("ENVIRONMENT"));
+
+        $this->say('3. Preparing for running migratons...');
 
 
         require 'app/functions.php';
 
+        $this->say('4. Running migrations ...');
         \Sinevia\Migrate::setDirectoryMigration(\Sinevia\Registry::get('DIR_MIGRATIONS_DIR'));
         \Sinevia\Migrate::setDatabase(db());
         \Sinevia\Migrate::$verbose = false;
         \Sinevia\Migrate::up();
+
+        $this->say('5. Migrations finished ...');
+        
+        $this->say('============== END: Migrations =============');
     }
 
 
