@@ -25,6 +25,7 @@
   "require": {
     "dg/composer-cleaner": "^2.1",
     "illuminate/database": "^6.1",
+    "jenssegers/blade": "dev-master",
     "mrclay/jsmin-php": ">=2.4.0",
     "phroute/phroute": ">=v2.1.0",
     "sinevia/php-library-migrate": ">=v1.2.0",
@@ -32,7 +33,7 @@
     "sinevia/php-library-serverless": ">=v1.4.0",
     "sinevia/php-library-sqldb": ">=v2.9.0",
     "sinevia/php-library-template": ">=v1.4.0",
-    "sinevia/php-library-utils": ">=v1.9.0"
+    "sinevia/php-library-utils": ">=v2.7.0"
   },
   "require-dev": {
     "consolidation/robo": ">=1.4.9",

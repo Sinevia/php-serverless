@@ -4,7 +4,8 @@
  * Returns the top most (root, base) path of the application
  * @return string
  */
-function basePath($path = '') {
+function basePath($path = '')
+{
     $rootPath = dirname(__DIR__);
     if ($path == "") {
         return $rootPath;
@@ -16,7 +17,8 @@ function basePath($path = '') {
  * Returns the top most (root, base) URL of the application
  * @return string
  */
-function baseUrl($path = '') {
+function baseUrl($path = '')
+{
     $url = \Sinevia\Registry::get("URL_BASE");
     return $url . '/' . ltrim($path, '/');
 }
@@ -92,13 +94,15 @@ if (function_exists('env') == false) {
      * Returns an env variable from OPEN WHISK
      * @return mixed
      */
-    function env($key, $default = "") {
+    function env($key, $default = "")
+    {
         $env = json_decode($_ENV['WHISK_INPUT'], true);
         return $env[$key] ?? $default;
     }
 }
 
-function htmlFormatPriceWithCurrencySymbol($amount, $currency) {
+function htmlFormatPriceWithCurrencySymbol($amount, $currency)
+{
     $symbol = "";
     if ($currency == "GBP") {
         $symbol = "&pound;";
@@ -119,7 +123,8 @@ function htmlFormatPriceWithCurrencySymbol($amount, $currency) {
  * Converts an image path to data URI
  * @return string
  */
-function image2DataUri($imagePath) {
+function image2DataUri($imagePath)
+{
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $type = $finfo->file($imagePath);
     return 'data:' . $type . ';base64,' . base64_encode(file_get_contents($imagePath));
@@ -129,7 +134,8 @@ function image2DataUri($imagePath) {
  * Checks if this is a GET request
  * @return boolean
  */
-function isGet() {
+function isGet()
+{
     $isPost = strtolower($_SERVER['REQUEST_METHOD']) == "get" ? true : false;
     return $isPost;
 }
@@ -138,7 +144,8 @@ function isGet() {
  * Checks if this is a POST request
  * @return boolean
  */
-function isPost() {
+function isPost()
+{
     $isPost = strtolower($_SERVER['REQUEST_METHOD']) == "post" ? true : false;
     return $isPost;
 }
@@ -147,7 +154,8 @@ function isPost() {
  * Joins multiple CSS files, and optionally minifies them
  * @return string
  */
-function joinCss($styles, $options = []) {
+function joinCss($styles, $options = [])
+{
     $minify = $options['minify'] ?? 'no';
     $html = '';
     $html .= '<style>';
@@ -170,7 +178,8 @@ function joinCss($styles, $options = []) {
  * Joins multiple JavaScript files, and optionally minifies them
  * @return string
  */
-function joinScripts($scripts, $options = []) {
+function joinScripts($scripts, $options = [])
+{
     $minify = $options['minify'] ?? 'no';
     $html = '';
     $html .= '<script>';
@@ -193,7 +202,8 @@ function joinScripts($scripts, $options = []) {
  * Redirects to the specified URL
  * @return string
  */
-function redirect($url) {
+function redirect($url)
+{
     return "<meta http-equiv=\"refresh\" content=\"0;url=$url\">\r\n";
 }
 
@@ -202,7 +212,8 @@ function redirect($url) {
  * Returns the requested $_REQUEST name-value pair if it exists
  * @return mixed
  */
-function req($name, $default = null, $functions = []) {
+function req($name, $default = null, $functions = [])
+{
     $value = (isset($_REQUEST[$name]) == false) ? $default : $_REQUEST[$name];
     foreach ($functions as $fn) {
         $value = $fn($value);
@@ -215,7 +226,8 @@ function req($name, $default = null, $functions = []) {
  * Returns the requested $_SESSION name-value pair if it exists
  * @return string
  */
-function sess($name, $default = null, $functions = [], $options = []) {
+function sess($name, $default = null, $functions = [], $options = [])
+{
     $value = (isset($_SESSION[$name]) == false) ? $default : $_SESSION[$name];
     foreach ($functions as $fn) {
         $value = $fn($value);
@@ -228,7 +240,8 @@ function sess($name, $default = null, $functions = [], $options = []) {
  * Returns a once value if it exists in $_SESSION if it exists
  * @return mixed
  */
-function once($name, $default = null, $functions = [], $options = []) {
+function once($name, $default = null, $functions = [], $options = [])
+{
     $value = (isset($_SESSION[$name]) == false) ? $default : $_SESSION[$name];
     foreach ($functions as $fn) {
         $value = $fn($value);
@@ -239,7 +252,8 @@ function once($name, $default = null, $functions = [], $options = []) {
     return $value;
 }
 
-function reqOrSess($name, $default = null, $functions = []) {
+function reqOrSess($name, $default = null, $functions = [])
+{
     if (req($name, $default, $functions) !== null) {
         return req($name, $default, $functions);
     }
@@ -254,12 +268,13 @@ function reqOrSess($name, $default = null, $functions = []) {
  * Renders a template
  * @return string
  */
-function ui($view, $vars = array(), $options = array()) {
+function ui($view, $vars = array(), $options = array())
+{
     $ext = pathinfo($view, PATHINFO_EXTENSION);
     if ($ext == '') {
         $view .= '.phtml';
     }
-    $template = basePath('app/views/' . ltrim($view, '/'));
+    $template = basePath(basePath('views/' . ltrim($view, '/')));
     return \Sinevia\Template::fromFile($template, $vars, $options);
 }
 
@@ -267,7 +282,8 @@ function ui($view, $vars = array(), $options = array()) {
  * Renders a Blade template
  * @return string
  */
-function view($view, $data = []) {
-    $blade = new \Jenssegers\Blade\Blade(basePath('views'), basePath('cache'));
+function view($view, $data = [])
+{
+    $blade = new \Jenssegers\Blade\Blade(basePath('views'), basePath('tmp/cache'));
     return $blade->render($view, $data);
 }

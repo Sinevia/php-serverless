@@ -1,4 +1,9 @@
 <?php
+if (isLocal()) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+    ini_set('display_startup_errors', true);
+}
 
 /* TESTING */
 \Sinevia\Registry::setIfNotExists("TESTING_FRAMEWORK", 'TESTIFY'); // Options: TESTIFY, PHPUNIT, NONE
