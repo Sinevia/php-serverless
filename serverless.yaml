@@ -4,6 +4,7 @@ package:
     - .git/**
     - .serverless/**
     - .vagrant/**
+    - .vscode/**
     - nbproject/**
     - new/**
     - old/**

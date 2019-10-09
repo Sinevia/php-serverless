@@ -2,13 +2,6 @@
 <style scoped="scoped">
 .navbar .navbar-brand {
     font-weight: 900;
-    color: #333;
-}
-
-.navbar a {
-    font-size: 14px;
-    color: #333;
-    text-transform: uppercase;
 }
 </style>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -16,7 +9,7 @@
         <table style="width:100%">
             <tr>
                 <td align="left" valign="middle" style="width:100px;">
-                    <a class="navbar-brand" href="/" title="Home">
+                    <a class="navbar-brand" href="/user/home" title="Home">
                         Home
                     </a>
                 </td>
@@ -24,8 +17,8 @@
                     &nbsp;
                 </td>
                 <td align="right" valign="middle" style="width:200px;">
-                    <a href="/auth/login">
-                        Login
+                    <a href="/auth/logout" class="btn btn-md btn-box-tool" style="color:#333;background: white;">
+                        Logout
                     </a>
                 </td>
             </tr>

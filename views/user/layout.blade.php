@@ -1,5 +1,5 @@
 <?php
-$webpageTitle = isset($webpage_title) ? $webpage_title : 'None';
+$webpageTitle = isset($webpage_title) ? $webpage_title : 'Undefined';
 $routeName = 'home';
 ?>
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ $routeName = 'home';
         <!-- START: Header -->
         <tr>
             <td class="Header" align="center" valign="middle" style="height:1px;">
-                @include('guest.partial.header')
+                @include('user.partial.header')
             </td>
         </tr>
         <!-- END: Header -->
@@ -57,7 +57,7 @@ $routeName = 'home';
         <!-- START: Footer -->
         <tr>
             <td class="Footer" align="center" valign="middle" style="height:80px;">
-                @include('guest.partial.footer')
+                @include('user.partial.footer')
             </td>
         </tr>
         <!-- END: Footer -->
@@ -81,6 +81,17 @@ $routeName = 'home';
     <script src="https://cdn.jsdelivr.net/gh/lesichkovm/webicons@v1.4.0/webicons.fontawesome.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lesichkovm/webicons@v1.4.0/webicons.typicons.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lesichkovm/webicons@v1.4.0/webicons.runtime.js"></script>
+    <?php
+    echo joinScripts(
+        [
+            '/js/functions.js',
+            '/js/date.js',
+            '/js/strtotime.js',
+            '/js/authenticate-user.js'
+        ],
+        ['minify' => 'yes']
+    );
+    ?>
     @yield('scripts')
 </body>
 

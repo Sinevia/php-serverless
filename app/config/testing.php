@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'APP_NAME' => "[TESTING] Serverless",
     'URL_BASE' => "none",
     "DB_TYPE" => 'sqlite',
     "DB_HOST" => ':memory:',

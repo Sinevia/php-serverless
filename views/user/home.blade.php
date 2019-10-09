@@ -1,10 +1,10 @@
-@extends('guest.layout',['webpage_title'=>'Home'])
+@extends('user.layout',['webpage_title'=>'Dashboard'])
 
 @section('content')
 <section class="content">
     <div class="container text-center">
         <div class="title">
-            Welcome
+            Dashboard
         </div>
 
         <div class="links">
@@ -18,7 +18,7 @@
 @section('styles')
 <style>
 .title {
-    font-size: 46px;
+    font-size: 84px;
     margin: 80px 0px 40px 0px;
 }
 

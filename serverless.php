@@ -3,7 +3,8 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/app/functions.php';
 
-function main($args = []) {
+function main($args = [])
+{
     date_default_timezone_set('Europe/London');
 
     \Sinevia\Serverless::openwhisk($args);
@@ -28,18 +29,27 @@ function main($args = []) {
     /* 2. Define routes */
     $router = new Phroute\Phroute\RouteCollector();
 
-    $router->filter('ApiVerifyUser', function() {
-        return true;
+    $router->filter('ApiVerifyUser', function () {
+        $o = new App\Controllers\Api\BaseController();
+        $response = $o->verifyUserRequest();
+        return $response;
     });
 
-    $router->group(array('prefix' => '/api'), function(Phroute\Phroute\RouteCollector $router) {
-        
-    });
-
-    $router->group(array('prefix' => '/'), function(Phroute\Phroute\RouteCollector $router) {
-        $router->get('/', function() {
-            return 'Hello world !!!';
+    $router->group(array('prefix' => '/api'), function (Phroute\Phroute\RouteCollector $router) {
+        $router->controller('/auth', 'App\Controllers\Api\AuthController');
+        $router->group(['before' => 'ApiVerifyUser'], function () use ($router) {
+            //$router->controller('/user', 'App\Controllers\Api\UserController');
         });
+    });
+
+    $router->group(array('prefix' => '/user'), function (Phroute\Phroute\RouteCollector $router) {
+        $router->any('/{module}/{page}?', ['App\Controllers\User\HomeController', 'anyModulePage']);
+        $router->any('/{page}?', ['App\Controllers\User\HomeController', 'anyPage']);
+    });
+
+    $router->group(array('prefix' => '/'), function (Phroute\Phroute\RouteCollector $router) {
+        $router->controller('/auth', 'App\Controllers\Guest\AuthController');
+        $router->controller('/', 'App\Controllers\Guest\HomeController');
     });
 
     try {
@@ -56,6 +66,7 @@ function main($args = []) {
     return responseHtml($response);
 }
 
-function responseHtml($html) {
+function responseHtml($html)
+{
     return ['body' => $html];
 }

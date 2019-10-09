@@ -33,7 +33,9 @@
     "sinevia/php-library-registry": ">=v2.8.0",
     "sinevia/php-library-serverless": ">=v1.4.0",
     "sinevia/php-library-sqldb": ">=v2.9.0",
+    "sinevia/php-library-sqldb-cache": "^1.2",
     "sinevia/php-library-template": ">=v1.4.0",
+    "sinevia/php-library-uid": "^1.8",
     "sinevia/php-library-utils": ">=v2.7.0"
   },
   "require-dev": {
