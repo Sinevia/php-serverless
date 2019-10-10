@@ -90,7 +90,7 @@ class Emails
 
         //$data = \Sinevia\DataUtils::serialize(['UserId' => $user->Id]);
         //$activation_link = \App\Helpers\Link::guestAccountActivate(['token' => $data]);
-        $html_email = view('emails.auth-password-change', array(
+        $html_email = view('emails.auth.password-change', array(
             'first_name' => $user['FirstName'],
             'password_change_link' => $link,
         ));
