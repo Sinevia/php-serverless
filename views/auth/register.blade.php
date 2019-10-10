@@ -13,7 +13,7 @@
     <br />
 
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-12" style="margin:0 auto;">
+        <div class="col-lg-6 col-md-8 col-sm-12" style="margin:0 auto;">
             <div class="card card-default">
                 <div class="card-header">
                     <h3 class="card-title" data-i18n="Auth.Login.HeadingSignIn" style="margin:0px;">
@@ -112,7 +112,7 @@
 <script>
 $(function() {
     if ($$.getUser() !== null) {
-        $$.to('user/home.html');
+        $$.to('user/home');
     }
 });
 </script>
