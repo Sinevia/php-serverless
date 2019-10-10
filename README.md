@@ -20,7 +20,6 @@ The first and fully functional PHP framework built exclusively for serverless. S
 - Uses tested serverless deployment framework ([learn more](https://serverless.com/))
 
 
-
 ## INSTALLATION ##
 
 1. Step 1
@@ -38,6 +37,13 @@ vendor/bin/robo init
 - Change the settings in /app/config (serverless function name, etc)
 - Change the settings in /env.php (not required usually)
 
+## WORKFLOW ##
+Four environments are specified and available out of the box - local, testing, staging, live.
+
+1. Local. All development is done on local - (local)
+2. Testing. Automatic tests are run in testing - (testing)
+3. Staging. For user and manual testing depoy to staging - (staging)
+4. Live. For real live usage deploy to live - (live)
 
 ## DEVELOPMENT ##
 
@@ -62,6 +68,24 @@ vendor/bin/robo open local
 ```
 
 
+## DATABASE ##
+
+To run migrations for each environment:
+
+```
+vendor/bin/robo migrate local
+```
+
+```
+vendor/bin/robo migrate staging
+```
+
+```
+vendor/bin/robo migrate live
+```
+
+
+
 ## DEPLOYMENT ##
 
 The deployment will run your tests, and will continue only if your tests are successful
@@ -80,16 +104,34 @@ vendor/bin/robo deploy live
 
 A RoboFile exists with automated functionality.
 
+- Run database migrations on local
+
+```
+vendor/bin/robo migrate local
+```
+
+- Run database migrations on staging
+
+```
+vendor/bin/robo migrate local
+```
+
+- Run database migrations on live
+
+```
+vendor/bin/robo migrate live
+```
+
 - Serve the site for development
 
 ```
 vendor/bin/robo serve
 ```
 
-- Open dev url from terminal
+- Open local/dev url from terminal
 
 ```
-vendor/bin/robo open dev
+vendor/bin/robo open local
 ```
 
 - Open staging url from terminal
@@ -119,7 +161,9 @@ vendor/bin/robo deploy live
 
 ## TESTING ##
 
-Two testing frameworks supported out of the box - Testify.php (preferred, and preinstaled) and PHPUnit.
+Two testing frameworks supported out of the box:
+1. Testify.php - very lean and straghtforward to work with (preferred, and preinstaled)
+2. PHPUnit - more mature, but heavy weight with many dependencies
 
 To decide which modify the setting in the RoboFile.
 
