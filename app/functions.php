@@ -54,7 +54,7 @@ if (\Sinevia\Registry::equals('USE_ELOQUENT', true)) {
     /**
      * Setups the Eloquent environment
      */
-    function eloquent()
+    function eloquent_init()
     {
         $dbType = \Sinevia\Registry::get('DB_TYPE');
         $dbHost = \Sinevia\Registry::get('DB_HOST');
@@ -85,7 +85,12 @@ if (\Sinevia\Registry::equals('USE_ELOQUENT', true)) {
         $capsule->bootEloquent();
     }
 
-    eloquent(); // Initioalize eloquent
+    eloquent_init(); // Initialize eloquent
+    
+    function eloquent($connection = "default"){
+        $capsule = new Illuminate\Database\Capsule\Manager;
+        return $capsule->connection($connection);
+    }
 }
 
 
