@@ -51,10 +51,10 @@ class AuthController extends BaseController
         $password = trim(\req('Password', ''));
 
         if ($email == '') {
-            return $this->error('Email not specified');
+            return $this->error('E-mail is required field');
         }
         if ($password == '') {
-            return $this->error('Password not specified');
+            return $this->error('Password is required field');
         }
 
         //\App\Plugins\Users::getDatabase()->debug = true;
@@ -222,7 +222,7 @@ class AuthController extends BaseController
         $password = trim(req('Password'));
 
         if ($email == '') {
-            return $this->error('Email is required field');
+            return $this->error('E-mail is required field');
         }
 
         if ($firstName == '') {

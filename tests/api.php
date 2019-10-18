@@ -11,6 +11,7 @@ $tf->beforeEach(function (\Testify\Testify $tf) {
 
 $tf->test("Testing email verification endpoint (no token)", function (\Testify\Testify $tf) {
     $response = get('/api/auth/email-verify');
+    // DEBUG: var_dump($response);
     $tf->assertArrayHasKey($response, 'body', "Response contains 'body'");
     $contents = $response['body'];
     $tf->assertJson($contents, 'Testing contents is JSON');
@@ -24,6 +25,7 @@ $tf->test("Testing email verification endpoint (no token)", function (\Testify\T
 
 $tf->test("Testing login endpoint (no date)", function (\Testify\Testify $tf) {
     $response = get('/api/auth/login');
+    // DEBUG: var_dump($response);
     $tf->assertArrayHasKey($response, 'body', "Response contains 'body'");
     $contents = $response['body'];
     $tf->assertJson($contents, 'Testing contents is JSON');
@@ -37,6 +39,7 @@ $tf->test("Testing login endpoint (no date)", function (\Testify\Testify $tf) {
 
 $tf->test("Testing register endpoint (no date)", function (\Testify\Testify $tf) {
     $response = get('/api/auth/register');
+    // DEBUG: var_dump($response);
     $tf->assertArrayHasKey($response, 'body', "Response contains 'body'");
     $contents = $response['body'];
     $tf->assertJson($contents, 'Testing contents is JSON');
@@ -45,7 +48,7 @@ $tf->test("Testing register endpoint (no date)", function (\Testify\Testify $tf)
     $tf->assertArrayHasKey($response, 'status', 'Testing response has key "status"');
     $tf->assertArrayHasKey($response, 'message', 'Testing response has key "message"');
     $tf->assertEquals($response['status'], 'error', 'Testing response status is "error"');
-    $tf->assertEquals($response['message'], 'First Name is required field', 'Testing message is "First Name is required field"');
+    $tf->assertEquals($response['message'], 'E-mail is required field', 'Testing message is "E-mail is required field"');
 });
 
 $tf();

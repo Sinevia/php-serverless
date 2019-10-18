@@ -59,6 +59,8 @@ $tf->test("Testing home page", function (\Testify\Testify $tf) {
     $tf->assertStringContainsString($response['body'], '<title>Home | Serverless</title>');
 });
 
-//include("api.php");
 
 $tf();
+
+
+include("api.php");
