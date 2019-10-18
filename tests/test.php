@@ -54,8 +54,11 @@ $tf->test("Testing function name is set", function (\Testify\Testify $tf) {
 
 $tf->test("Testing home page", function (\Testify\Testify $tf) {
     $response = get('/');
-    $tf->assert(isset($response['body']), "Response contains 'body'");
-    $tf->assert(\Sinevia\StringUtils::hasSubstring($response['body'], 'Hello world'));
+    $tf->assertArray($response, "Is response an array");
+    $tf->assertArrayHasKey($response, 'body', "Response contains 'body'");
+    $tf->assertStringContainsString($response['body'], '<title>Home | Serverless</title>');
 });
+
+//include("api.php");
 
 $tf();
