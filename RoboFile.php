@@ -227,8 +227,8 @@ class RoboFile extends \Robo\Tasks
         // 6. Prepare for deployment
         $this->say('4. Prepare for deployment...');
         $this->taskReplaceInFile('env.php')
-            ->from('("ENVIRONMENT", "unrecognized")')
-            ->to('("ENVIRONMENT", "' . $environment . '")')
+            ->from('"ENVIRONMENT", isLocal() ? "local" : "unrecognized"')
+            ->to('"ENVIRONMENT", isLocal() ? "local" : "' . $environment . '"')
             ->run();
 
         $this->taskReplaceInFile('serverless.yaml')
@@ -242,7 +242,7 @@ class RoboFile extends \Robo\Tasks
             $this->say('5. Deploying...');
             $this->taskExec('sls')
                 ->arg('deploy')
-                ->option('function', $functionName)
+                // ->option('function', $functionName) // Not working since Serverless v.1.5.1
                 ->run();
         } catch (\Exception $e) {
             $this->say('There was an exception: ' . $e->getMessage());
@@ -251,8 +251,8 @@ class RoboFile extends \Robo\Tasks
         // 8. Cleanup after deployment
         $this->say('6. Cleaning up...');
         $this->taskReplaceInFile('env.php')
-            ->from('("ENVIRONMENT", "' . $environment . '")')
-            ->to('("ENVIRONMENT", "unrecognized")')
+            ->from('"ENVIRONMENT", isLocal() ? "local" : "' . $environment . '"')
+            ->to('"ENVIRONMENT", isLocal() ? "local" : "unrecognized"')
             ->run();
         $this->taskReplaceInFile('serverless.yaml')
             ->from($functionName)
