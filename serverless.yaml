@@ -1,4 +1,4 @@
-service: { YOURFUNCTION } # !!! Do not change will be modified automatically during deployment
+service: {YOURFUNCTION} # !!! Do not change will be modified automatically during deployment
 package:
   exclude:
     - .git/**
@@ -26,9 +26,9 @@ provider:
   timeout: 6 # optional, default is 6
 
 functions:
-  { YOURFUNCTION }: # !!! Do not change will be modified automatically during deployment
+  {YOURFUNCTION}: # !!! Do not change will be modified automatically during deployment
     handler: serverless.main
-    name: { YOURFUNCTION } # !!! Do not change will be modified automatically during deployment
+    name: {YOURFUNCTION} # !!! Do not change will be modified automatically during deployment
     annotations:
       web-export: true
 
