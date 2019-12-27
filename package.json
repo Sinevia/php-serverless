@@ -1,0 +1,8 @@
+{
+  "name": "php-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "serverless-openwhisk": ">=0.18.0"
+  }
+}

@@ -1,0 +1,36 @@
+service: {YOURFUNCTION} # !!! Do not change will be modified automatically during deployment
+package:
+  exclude:
+    - .git/**
+    - .serverless/**
+    - .vagrant/**
+    - .vscode/**
+    - nbproject/**
+    - new/**
+    - old/**
+    - tests/**
+    - vendor/bin/**
+    - .gitignore
+    - .travis.yml
+    - composer.json
+    - composer.lock
+    - package.json
+    - package-lock.json
+    - phpunit.xml
+    - RoboFile.php
+
+provider:
+  name: openwhisk
+  runtime: php
+  memory: 256 # optional, default is 256
+  timeout: 6 # optional, default is 6
+
+functions:
+  {YOURFUNCTION}: # !!! Do not change will be modified automatically during deployment
+    handler: serverless.main
+    name: {YOURFUNCTION} # !!! Do not change will be modified automatically during deployment
+    annotations:
+      web-export: true
+
+plugins:
+  - serverless-openwhisk

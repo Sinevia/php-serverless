@@ -1,0 +1,45 @@
+{
+  "name": "sinevia/php-serverless",
+  "description": "PHP Serverless",
+  "authors": [
+    {
+      "name": "Sinevia Ltd",
+      "email": "info@sinevia.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "env.php"
+    ],
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "dg/composer-cleaner": "^2.1",
+    "illuminate/database": "^6.3",
+    "jenssegers/blade": "dev-master",
+    "mrclay/jsmin-php": ">=2.4.0",
+    "phroute/phroute": ">=v2.1.0",
+    "sinevia/php-library-api": "^1.1",
+    "sinevia/php-library-migrate": ">=v1.3.0",
+    "sinevia/php-library-registry": ">=v2.8.0",
+    "sinevia/php-library-serverless": ">=v1.7.0",
+    "sinevia/php-library-sqldb": ">=v3.8.0",
+    "sinevia/php-library-sqldb-cache": "^1.2",
+    "sinevia/php-library-template": ">=v1.4.0",
+    "sinevia/php-library-uid": "^1.8",
+    "sinevia/php-library-utils": ">=v2.7.0"
+  },
+  "require-dev": {
+    "consolidation/robo": ">=1.4.9",
+    "sinevia/php-library-testify": "^1.6"
+  }
+}
