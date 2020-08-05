@@ -1,4 +1,4 @@
-# SERVERLESS FRAMEWORK
+# PHP SERVERLESS FRAMEWORK
 
 The first and fully functional PHP framework built exclusively for serverless. Support for [IBM Cloud Functions](https://www.ibm.com/uk-en/cloud/functions)
 
